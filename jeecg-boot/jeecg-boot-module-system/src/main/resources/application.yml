@@ -1,5 +1,5 @@
 spring:
   application:
-    name: jeecg-system
+    name: eth_hub
   profiles:
     active: @profile.name@
