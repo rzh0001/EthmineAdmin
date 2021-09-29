@@ -207,11 +207,11 @@
           }
         ],
         url: {
-          list: "/org.jeecg.modules.eth_hub/etherMiner/list",
-          delete: "/org.jeecg.modules.eth_hub/etherMiner/delete",
-          deleteBatch: "/org.jeecg.modules.eth_hub/etherMiner/deleteBatch",
-          exportXlsUrl: "/org.jeecg.modules.eth_hub/etherMiner/exportXls",
-          importExcelUrl: "org.jeecg.modules.eth_hub/etherMiner/importExcel",
+          list: "/eth_hub/etherMiner/list",
+          delete: "/eth_hub/etherMiner/delete",
+          deleteBatch: "/eth_hub/etherMiner/deleteBatch",
+          exportXlsUrl: "/eth_hub/etherMiner/exportXls",
+          importExcelUrl: "eth_hub/etherMiner/importExcel",
           
         },
         dictOptions:{},
@@ -241,7 +241,7 @@
         fieldList.push({type:'int',value:'invalidShares',text:'无效份额',dictCode:''})
         fieldList.push({type:'int',value:'staleShares',text:'延迟份额',dictCode:''})
         fieldList.push({type:'int',value:'activeWorkers',text:'活跃矿机',dictCode:''})
-        fieldList.push({type:'int',value:'unpaid',text:'待转账',dictCode:''})
+        fieldList.push({type:'BigDecimal',value:'unpaid',text:'待转账',dictCode:''})
         this.superFieldList = fieldList
       }
     }

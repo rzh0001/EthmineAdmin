@@ -70,17 +70,17 @@ public class EtherWorker implements Serializable {
      */
     @Excel(name = "报告时间", width = 15, format = "yyyy-MM-dd")
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
-    @DateTimeFormat()
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @ApiModelProperty(value = "报告时间")
-    private java.util.Date time;
+    private Date time;
     /**
      * 最后更新
      */
     @Excel(name = "最后更新", width = 15, format = "yyyy-MM-dd")
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
-    @DateTimeFormat()
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @ApiModelProperty(value = "最后更新")
-    private java.util.Date lastSeen;
+    private Date lastSeen;
     /**
      * 报告算力
      */

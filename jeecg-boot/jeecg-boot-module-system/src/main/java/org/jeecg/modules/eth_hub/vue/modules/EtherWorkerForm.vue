@@ -30,12 +30,12 @@
           </a-col>
           <a-col :span="24">
             <a-form-model-item label="报告时间" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="time">
-              <a-input-number v-model="model.time" placeholder="请输入报告时间" style="width: 100%" />
+              <j-date placeholder="请选择报告时间" v-model="model.time"  style="width: 100%" />
             </a-form-model-item>
           </a-col>
           <a-col :span="24">
             <a-form-model-item label="最后更新" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="lastSeen">
-              <a-input-number v-model="model.lastSeen" placeholder="请输入最后更新" style="width: 100%" />
+              <j-date placeholder="请选择最后更新" v-model="model.lastSeen"  style="width: 100%" />
             </a-form-model-item>
           </a-col>
           <a-col :span="24">
@@ -102,9 +102,9 @@
         validatorRules: {
         },
         url: {
-          add: "/org.jeecg.modules.eth_hub/etherWorker/add",
-          edit: "/org.jeecg.modules.eth_hub/etherWorker/edit",
-          queryById: "/org.jeecg.modules.eth_hub/etherWorker/queryById"
+          add: "/eth_hub/etherWorker/add",
+          edit: "/eth_hub/etherWorker/edit",
+          queryById: "/eth_hub/etherWorker/queryById"
         }
       }
     },

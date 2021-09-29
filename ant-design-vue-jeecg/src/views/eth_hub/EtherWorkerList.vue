@@ -181,12 +181,18 @@
           {
             title:'报告时间',
             align:"center",
-            dataIndex: 'time'
+            dataIndex: 'time',
+            customRender:function (text) {
+              return !text?"":(text.length>10?text.substr(0,10):text)
+            }
           },
           {
             title:'最后更新',
             align:"center",
-            dataIndex: 'lastSeen'
+            dataIndex: 'lastSeen',
+            customRender:function (text) {
+              return !text?"":(text.length>10?text.substr(0,10):text)
+            }
           },
           {
             title:'报告算力',
@@ -223,11 +229,11 @@
           }
         ],
         url: {
-          list: "/org.jeecg.modules.eth_hub/etherWorker/list",
-          delete: "/org.jeecg.modules.eth_hub/etherWorker/delete",
-          deleteBatch: "/org.jeecg.modules.eth_hub/etherWorker/deleteBatch",
-          exportXlsUrl: "/org.jeecg.modules.eth_hub/etherWorker/exportXls",
-          importExcelUrl: "org.jeecg.modules.eth_hub/etherWorker/importExcel",
+          list: "/eth_hub/etherWorker/list",
+          delete: "/eth_hub/etherWorker/delete",
+          deleteBatch: "/eth_hub/etherWorker/deleteBatch",
+          exportXlsUrl: "/eth_hub/etherWorker/exportXls",
+          importExcelUrl: "eth_hub/etherWorker/importExcel",
           
         },
         dictOptions:{},
@@ -252,8 +258,8 @@
         fieldList.push({type:'string',value:'minerId',text:'矿工地址',dictCode:''})
         fieldList.push({type:'string',value:'minerName',text:'账户别名',dictCode:''})
         fieldList.push({type:'string',value:'minerAddress',text:'ETH地址',dictCode:''})
-        fieldList.push({type:'int',value:'time',text:'报告时间',dictCode:''})
-        fieldList.push({type:'int',value:'lastSeen',text:'最后更新',dictCode:''})
+        fieldList.push({type:'date',value:'time',text:'报告时间'})
+        fieldList.push({type:'date',value:'lastSeen',text:'最后更新'})
         fieldList.push({type:'int',value:'reportedHashrate',text:'报告算力',dictCode:''})
         fieldList.push({type:'double',value:'currentHashrate',text:'当前算力',dictCode:''})
         fieldList.push({type:'int',value:'validShares',text:'有效份额',dictCode:''})

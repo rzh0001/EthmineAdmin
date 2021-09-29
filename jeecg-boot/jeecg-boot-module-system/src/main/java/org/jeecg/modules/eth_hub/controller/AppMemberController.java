@@ -10,8 +10,8 @@ import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.aspect.annotation.AutoLog;
 import org.jeecg.common.system.base.controller.JeecgController;
 import org.jeecg.common.system.query.QueryGenerator;
-import org.jeecg.modules.eth_hub.entity.EtherWorker;
-import org.jeecg.modules.eth_hub.service.IEtherWorkerService;
+import org.jeecg.modules.eth_hub.entity.AppMember;
+import org.jeecg.modules.eth_hub.service.IAppMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -21,66 +21,66 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 
 /**
- * @Description: ether_worker
+ * @Description: app_member
  * @Author: jeecg-boot
  * @Date: 2021-09-29
  * @Version: V1.0
  */
-@Api(tags = "ether_worker")
+@Api(tags = "app_member")
 @RestController
-@RequestMapping("/eth_hub/etherWorker")
+@RequestMapping("/eth_hub/appMember")
 @Slf4j
-public class EtherWorkerController extends JeecgController<EtherWorker, IEtherWorkerService> {
+public class AppMemberController extends JeecgController<AppMember, IAppMemberService> {
     @Autowired
-    private IEtherWorkerService etherWorkerService;
+    private IAppMemberService appMemberService;
 
     /**
      * 分页列表查询
      *
-     * @param etherWorker
+     * @param appMember
      * @param pageNo
      * @param pageSize
      * @param req
      * @return
      */
-    @AutoLog(value = "ether_worker-分页列表查询")
-    @ApiOperation(value = "ether_worker-分页列表查询", notes = "ether_worker-分页列表查询")
+    @AutoLog(value = "app_member-分页列表查询")
+    @ApiOperation(value = "app_member-分页列表查询", notes = "app_member-分页列表查询")
     @GetMapping(value = "/list")
-    public Result<?> queryPageList(EtherWorker etherWorker,
+    public Result<?> queryPageList(AppMember appMember,
                                    @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
                                    @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize,
                                    HttpServletRequest req) {
-        QueryWrapper<EtherWorker> queryWrapper = QueryGenerator.initQueryWrapper(etherWorker, req.getParameterMap());
-        Page<EtherWorker> page = new Page<EtherWorker>(pageNo, pageSize);
-        IPage<EtherWorker> pageList = etherWorkerService.page(page, queryWrapper);
+        QueryWrapper<AppMember> queryWrapper = QueryGenerator.initQueryWrapper(appMember, req.getParameterMap());
+        Page<AppMember> page = new Page<AppMember>(pageNo, pageSize);
+        IPage<AppMember> pageList = appMemberService.page(page, queryWrapper);
         return Result.OK(pageList);
     }
 
     /**
      * 添加
      *
-     * @param etherWorker
+     * @param appMember
      * @return
      */
-    @AutoLog(value = "ether_worker-添加")
-    @ApiOperation(value = "ether_worker-添加", notes = "ether_worker-添加")
+    @AutoLog(value = "app_member-添加")
+    @ApiOperation(value = "app_member-添加", notes = "app_member-添加")
     @PostMapping(value = "/add")
-    public Result<?> add(@RequestBody EtherWorker etherWorker) {
-        etherWorkerService.save(etherWorker);
+    public Result<?> add(@RequestBody AppMember appMember) {
+        appMemberService.save(appMember);
         return Result.OK("添加成功！");
     }
 
     /**
      * 编辑
      *
-     * @param etherWorker
+     * @param appMember
      * @return
      */
-    @AutoLog(value = "ether_worker-编辑")
-    @ApiOperation(value = "ether_worker-编辑", notes = "ether_worker-编辑")
+    @AutoLog(value = "app_member-编辑")
+    @ApiOperation(value = "app_member-编辑", notes = "app_member-编辑")
     @PutMapping(value = "/edit")
-    public Result<?> edit(@RequestBody EtherWorker etherWorker) {
-        etherWorkerService.updateById(etherWorker);
+    public Result<?> edit(@RequestBody AppMember appMember) {
+        appMemberService.updateById(appMember);
         return Result.OK("编辑成功!");
     }
 
@@ -90,11 +90,11 @@ public class EtherWorkerController extends JeecgController<EtherWorker, IEtherWo
      * @param id
      * @return
      */
-    @AutoLog(value = "ether_worker-通过id删除")
-    @ApiOperation(value = "ether_worker-通过id删除", notes = "ether_worker-通过id删除")
+    @AutoLog(value = "app_member-通过id删除")
+    @ApiOperation(value = "app_member-通过id删除", notes = "app_member-通过id删除")
     @DeleteMapping(value = "/delete")
     public Result<?> delete(@RequestParam(name = "id", required = true) String id) {
-        etherWorkerService.removeById(id);
+        appMemberService.removeById(id);
         return Result.OK("删除成功!");
     }
 
@@ -104,11 +104,11 @@ public class EtherWorkerController extends JeecgController<EtherWorker, IEtherWo
      * @param ids
      * @return
      */
-    @AutoLog(value = "ether_worker-批量删除")
-    @ApiOperation(value = "ether_worker-批量删除", notes = "ether_worker-批量删除")
+    @AutoLog(value = "app_member-批量删除")
+    @ApiOperation(value = "app_member-批量删除", notes = "app_member-批量删除")
     @DeleteMapping(value = "/deleteBatch")
     public Result<?> deleteBatch(@RequestParam(name = "ids", required = true) String ids) {
-        this.etherWorkerService.removeByIds(Arrays.asList(ids.split(",")));
+        this.appMemberService.removeByIds(Arrays.asList(ids.split(",")));
         return Result.OK("批量删除成功!");
     }
 
@@ -118,26 +118,26 @@ public class EtherWorkerController extends JeecgController<EtherWorker, IEtherWo
      * @param id
      * @return
      */
-    @AutoLog(value = "ether_worker-通过id查询")
-    @ApiOperation(value = "ether_worker-通过id查询", notes = "ether_worker-通过id查询")
+    @AutoLog(value = "app_member-通过id查询")
+    @ApiOperation(value = "app_member-通过id查询", notes = "app_member-通过id查询")
     @GetMapping(value = "/queryById")
     public Result<?> queryById(@RequestParam(name = "id", required = true) String id) {
-        EtherWorker etherWorker = etherWorkerService.getById(id);
-        if (etherWorker == null) {
+        AppMember appMember = appMemberService.getById(id);
+        if (appMember == null) {
             return Result.error("未找到对应数据");
         }
-        return Result.OK(etherWorker);
+        return Result.OK(appMember);
     }
 
     /**
      * 导出excel
      *
      * @param request
-     * @param etherWorker
+     * @param appMember
      */
     @RequestMapping(value = "/exportXls")
-    public ModelAndView exportXls(HttpServletRequest request, EtherWorker etherWorker) {
-        return super.exportXls(request, etherWorker, EtherWorker.class, "ether_worker");
+    public ModelAndView exportXls(HttpServletRequest request, AppMember appMember) {
+        return super.exportXls(request, appMember, AppMember.class, "app_member");
     }
 
     /**
@@ -149,7 +149,7 @@ public class EtherWorkerController extends JeecgController<EtherWorker, IEtherWo
      */
     @RequestMapping(value = "/importExcel", method = RequestMethod.POST)
     public Result<?> importExcel(HttpServletRequest request, HttpServletResponse response) {
-        return super.importExcel(request, response, EtherWorker.class);
+        return super.importExcel(request, response, AppMember.class);
     }
 
 }

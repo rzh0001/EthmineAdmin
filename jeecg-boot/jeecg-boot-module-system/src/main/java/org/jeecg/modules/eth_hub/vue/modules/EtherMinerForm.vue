@@ -52,9 +52,9 @@
         validatorRules: {
         },
         url: {
-          add: "/org.jeecg.modules.eth_hub/etherMiner/add",
-          edit: "/org.jeecg.modules.eth_hub/etherMiner/edit",
-          queryById: "/org.jeecg.modules.eth_hub/etherMiner/queryById"
+          add: "/eth_hub/etherMiner/add",
+          edit: "/eth_hub/etherMiner/edit",
+          queryById: "/eth_hub/etherMiner/queryById"
         }
       }
     },
