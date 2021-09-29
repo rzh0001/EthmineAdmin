@@ -1,6 +1,6 @@
 package org.jeecg.modules.eth_hub.service;
 
-import org.jeecg.modules.eth_hub.entity.EtherMiner;
+import org.jeecg.modules.demo.eth_hub.entity.EtherMiner;
 
 public interface EtherminePersistService {
 

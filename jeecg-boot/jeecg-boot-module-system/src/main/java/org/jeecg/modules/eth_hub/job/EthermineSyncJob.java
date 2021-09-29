@@ -2,9 +2,9 @@ package org.jeecg.modules.eth_hub.job;
 
 import lombok.extern.slf4j.Slf4j;
 import org.jeecg.common.util.DateUtils;
-import org.jeecg.modules.eth_hub.entity.EtherMiner;
+import org.jeecg.modules.demo.eth_hub.entity.EtherMiner;
+import org.jeecg.modules.demo.eth_hub.service.IEtherMinerService;
 import org.jeecg.modules.eth_hub.service.EtherminePersistService;
-import org.jeecg.modules.eth_hub.service.IEtherMinerService;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;

@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * @Description: app_member
@@ -150,6 +151,25 @@ public class AppMemberController extends JeecgController<AppMember, IAppMemberSe
     @RequestMapping(value = "/importExcel", method = RequestMethod.POST)
     public Result<?> importExcel(HttpServletRequest request, HttpServletResponse response) {
         return super.importExcel(request, response, AppMember.class);
+    }
+
+    //// Custom Start
+
+    /**
+     * 根据对象里面的属性值作in查询 属性可能会变 会员组件用到
+     *
+     * @param sysUser
+     * @return
+     */
+    @GetMapping("/getMultiMember")
+    public List<AppMember> getMultiUser(AppMember condition) {
+        QueryWrapper<AppMember> queryWrapper = QueryGenerator.initQueryWrapper(condition, null);
+        List<AppMember> ls = this.appMemberService.list(queryWrapper);
+        for (AppMember member : ls) {
+            member.setPassword(null);
+//            member.setSalt(null);
+        }
+        return ls;
     }
 
 }

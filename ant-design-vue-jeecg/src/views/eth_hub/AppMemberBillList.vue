@@ -5,22 +5,15 @@
       <a-form layout="inline" @keyup.enter.native="searchQuery">
         <a-row :gutter="24">
           <a-col :xl="6" :lg="7" :md="8" :sm="24">
-            <a-form-item label="矿工昵称">
-              <a-input placeholder="请输入矿工昵称" v-model="queryParam.minerName"></a-input>
+            <a-form-item label="会员账户">
+              <a-input placeholder="请输入会员账户" v-model="queryParam.memberUsername"></a-input>
             </a-form-item>
           </a-col>
           <a-col :xl="6" :lg="7" :md="8" :sm="24">
-            <a-form-item label="ETH地址">
-              <a-input placeholder="请输入ETH地址" v-model="queryParam.minerAddress"></a-input>
+            <a-form-item label="账单类型">
+              <a-input placeholder="请输入账单类型" v-model="queryParam.type"></a-input>
             </a-form-item>
           </a-col>
-          <template v-if="toggleSearchStatus">
-            <a-col :xl="6" :lg="7" :md="8" :sm="24">
-              <a-form-item label="会员账户">
-                <a-input placeholder="请输入会员账户" v-model="queryParam.membenUsername"></a-input>
-              </a-form-item>
-            </a-col>
-          </template>
           <a-col :xl="6" :lg="7" :md="8" :sm="24">
             <span style="float: left;overflow: hidden;" class="table-page-search-submitButtons">
               <a-button type="primary" @click="searchQuery" icon="search">查询</a-button>
@@ -39,7 +32,7 @@
     <!-- 操作按钮区域 -->
     <div class="table-operator">
       <a-button @click="handleAdd" type="primary" icon="plus">新增</a-button>
-      <a-button type="primary" icon="download" @click="handleExportXls('ether_miner')">导出</a-button>
+      <a-button type="primary" icon="download" @click="handleExportXls('app_member_bill')">导出</a-button>
       <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">
         <a-button type="primary" icon="import">导入</a-button>
       </a-upload>
@@ -116,7 +109,7 @@
       </a-table>
     </div>
 
-    <ether-miner-modal ref="modalForm" @ok="modalFormOk"></ether-miner-modal>
+    <app-member-bill-modal ref="modalForm" @ok="modalFormOk"></app-member-bill-modal>
   </a-card>
 </template>
 
@@ -125,17 +118,17 @@
   import '@/assets/less/TableExpand.less'
   import { mixinDevice } from '@/utils/mixin'
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
-  import EtherMinerModal from './modules/EtherMinerModal'
+  import AppMemberBillModal from './modules/AppMemberBillModal'
 
   export default {
-    name: 'EtherMinerList',
+    name: 'AppMemberBillList',
     mixins:[JeecgListMixin, mixinDevice],
     components: {
-      EtherMinerModal
+      AppMemberBillModal
     },
     data () {
       return {
-        description: 'ether_miner管理页面',
+        description: 'app_member_bill管理页面',
         // 表头
         columns: [
           {
@@ -149,67 +142,59 @@
             }
           },
           {
-            title:'矿工昵称',
+            title:'会员ID',
             align:"center",
-            dataIndex: 'minerName'
-          },
-          {
-            title:'ETH地址',
-            align:"center",
-            dataIndex: 'minerAddress'
+            dataIndex: 'memberId'
           },
           {
             title:'会员账户',
             align:"center",
-            dataIndex: 'membenUsername'
+            dataIndex: 'memberUsername'
           },
           {
-            title:'待转账',
+            title:'币种',
             align:"center",
-            dataIndex: 'unpaid'
+            dataIndex: 'currency'
           },
           {
-            title:'活跃矿机',
+            title:'账单类型',
             align:"center",
-            dataIndex: 'activeWorkers'
+            dataIndex: 'type'
           },
           {
-            title:'报告算力',
+            title:'账单金额',
             align:"center",
-            dataIndex: 'reportedHashrate'
+            dataIndex: 'amount'
           },
           {
-            title:'当前算力',
+            title:'钱包余额',
             align:"center",
-            dataIndex: 'currentHashrate'
+            dataIndex: 'balance'
           },
           {
-            title:'有效份额',
+            title:'手续费',
             align:"center",
-            dataIndex: 'validShares'
+            dataIndex: 'charge'
           },
           {
-            title:'无效份额',
+            title:'账单详情',
             align:"center",
-            dataIndex: 'invalidShares'
+            dataIndex: 'detail'
           },
           {
-            title:'延迟份额',
+            title:'详情关联',
             align:"center",
-            dataIndex: 'staleShares'
+            dataIndex: 'detailId'
           },
           {
-            title:'最后更新',
+            title:'结算日',
             align:"center",
-            dataIndex: 'lastSeen',
-            customRender:function (text) {
-              return !text?"":(text.length>10?text.substr(0,10):text)
-            }
+            dataIndex: 'settleDate'
           },
           {
-            title:'会员ID',
+            title:'删除标志',
             align:"center",
-            dataIndex: 'memberId'
+            dataIndex: 'delFlag'
           },
           {
             title: '操作',
@@ -221,11 +206,11 @@
           }
         ],
         url: {
-          list: "/eth_hub/etherMiner/list",
-          delete: "/eth_hub/etherMiner/delete",
-          deleteBatch: "/eth_hub/etherMiner/deleteBatch",
-          exportXlsUrl: "/eth_hub/etherMiner/exportXls",
-          importExcelUrl: "eth_hub/etherMiner/importExcel",
+          list: "/eth_hub/appMemberBill/list",
+          delete: "/eth_hub/appMemberBill/delete",
+          deleteBatch: "/eth_hub/appMemberBill/deleteBatch",
+          exportXlsUrl: "/eth_hub/appMemberBill/exportXls",
+          importExcelUrl: "eth_hub/appMemberBill/importExcel",
           
         },
         dictOptions:{},
@@ -245,18 +230,17 @@
       },
       getSuperFieldList(){
         let fieldList=[];
-        fieldList.push({type:'string',value:'minerName',text:'矿工昵称',dictCode:''})
-        fieldList.push({type:'string',value:'minerAddress',text:'ETH地址',dictCode:''})
-        fieldList.push({type:'string',value:'membenUsername',text:'会员账户',dictCode:''})
-        fieldList.push({type:'BigDecimal',value:'unpaid',text:'待转账',dictCode:''})
-        fieldList.push({type:'int',value:'activeWorkers',text:'活跃矿机',dictCode:''})
-        fieldList.push({type:'int',value:'reportedHashrate',text:'报告算力',dictCode:''})
-        fieldList.push({type:'double',value:'currentHashrate',text:'当前算力',dictCode:''})
-        fieldList.push({type:'int',value:'validShares',text:'有效份额',dictCode:''})
-        fieldList.push({type:'int',value:'invalidShares',text:'无效份额',dictCode:''})
-        fieldList.push({type:'int',value:'staleShares',text:'延迟份额',dictCode:''})
-        fieldList.push({type:'date',value:'lastSeen',text:'最后更新'})
         fieldList.push({type:'string',value:'memberId',text:'会员ID',dictCode:''})
+        fieldList.push({type:'string',value:'memberUsername',text:'会员账户',dictCode:''})
+        fieldList.push({type:'string',value:'currency',text:'币种',dictCode:''})
+        fieldList.push({type:'string',value:'type',text:'账单类型',dictCode:''})
+        fieldList.push({type:'BigDecimal',value:'amount',text:'账单金额',dictCode:''})
+        fieldList.push({type:'BigDecimal',value:'balance',text:'钱包余额',dictCode:''})
+        fieldList.push({type:'BigDecimal',value:'charge',text:'手续费',dictCode:''})
+        fieldList.push({type:'string',value:'detail',text:'账单详情',dictCode:''})
+        fieldList.push({type:'string',value:'detailId',text:'详情关联',dictCode:''})
+        fieldList.push({type:'string',value:'settleDate',text:'结算日',dictCode:''})
+        fieldList.push({type:'int',value:'delFlag',text:'删除标志',dictCode:''})
         this.superFieldList = fieldList
       }
     }
