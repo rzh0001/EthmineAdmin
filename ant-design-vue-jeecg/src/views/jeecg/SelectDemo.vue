@@ -115,6 +115,15 @@
           </a-col>
           <a-col :span="12">选中的用户(v-model):{{ formData.userIds }}</a-col>
         </a-row>
+        <!--  通过部门选择用户控件 -->
+        <a-row :gutter="24">
+          <a-col :span="12">
+            <a-form-model-item label="选择会员" prop="userIds">
+              <j-select-app-member v-model="formData.memberId" :multi="true"></j-select-app-member>
+            </a-form-model-item>
+          </a-col>
+          <a-col :span="12">选中的用户(v-model):{{ formData.memberId }}</a-col>
+        </a-row>
 
         <!--  用户选择控件 -->
         <a-row :gutter="24">
@@ -469,11 +478,13 @@
   import JAreaLinkage from '@comp/jeecg/JAreaLinkage'
   import JMarkdownEditor from '@/components/jeecg/JMarkdownEditor/index'
   import JSearchSelectTag from '@/components/dict/JSearchSelectTag'
+  import JSelectAppMember from '@comp/jeecgbiz/JSelectAppMember'
 
   export default {
     name: 'SelectDemo',
     inject:['closeCurrent'],
     components: {
+      JSelectAppMember,
       JMarkdownEditor,
       JAreaLinkage,
       JInput,
@@ -504,6 +515,7 @@
           orgCodes: 'A02A01,A02A02',
           departId: '57197590443c44f083d42ae24ef26a2c,a7d7e77e06c84325a40932163adcdaa6',
           userIds: 'admin',
+          memberId: '1',
           multiUser: 'admin,jeecg',
           jCheckbox: 'spring,jeecgboot',
           jCodeEditor: `function sayHi(word) {\n  alert(word)\n}\nsayHi('hello, world!')`,
