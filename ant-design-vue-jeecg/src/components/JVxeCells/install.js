@@ -11,9 +11,13 @@ import JVxeTextareaCell from '@comp/jeecg/JVxeTable/components/cells/JVxeTextare
 JVXETypes.input_pop = 'input_pop'
 JVXETypes.list_multi = 'list_multi'
 JVXETypes.sel_search = 'sel_search'
+//会员选择
+JVXETypes.memberSelect = 'sel_member'
+
 installCell(JVXETypes.input_pop, JVxeTextareaCell)
 installCell(JVXETypes.list_multi, JVxeSelectCell)
 installCell(JVXETypes.sel_search, JVxeSelectCell)
+installCell(JVXETypes.memberSelect, JVxeSelectCell)
 
 // 注册【popup】组件（普通封装方式）
 JVXETypes.popup = 'popup'

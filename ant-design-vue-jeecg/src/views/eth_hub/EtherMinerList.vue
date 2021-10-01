@@ -17,7 +17,7 @@
           <template v-if="toggleSearchStatus">
             <a-col :xl="6" :lg="7" :md="8" :sm="24">
               <a-form-item label="会员账户">
-                <a-input placeholder="请输入会员账户" v-model="queryParam.membenUsername"></a-input>
+                <j-select-user-by-dep placeholder="请选择会员账户" v-model="queryParam.memberUsername"/>
               </a-form-item>
             </a-col>
           </template>
@@ -161,7 +161,12 @@
           {
             title:'会员账户',
             align:"center",
-            dataIndex: 'membenUsername'
+            dataIndex: 'memberUsername'
+          },
+          {
+            title:'会员昵称',
+            align:"center",
+            dataIndex: 'memberNickname'
           },
           {
             title:'待转账',
@@ -207,11 +212,6 @@
             }
           },
           {
-            title:'会员ID',
-            align:"center",
-            dataIndex: 'memberId'
-          },
-          {
             title: '操作',
             dataIndex: 'action',
             align:"center",
@@ -247,7 +247,8 @@
         let fieldList=[];
         fieldList.push({type:'string',value:'minerName',text:'矿工昵称',dictCode:''})
         fieldList.push({type:'string',value:'minerAddress',text:'ETH地址',dictCode:''})
-        fieldList.push({type:'string',value:'membenUsername',text:'会员账户',dictCode:''})
+        fieldList.push({type:'sel_user',value:'memberUsername',text:'会员账户'})
+        fieldList.push({type:'string',value:'memberNickname',text:'会员昵称',dictCode:''})
         fieldList.push({type:'BigDecimal',value:'unpaid',text:'待转账',dictCode:''})
         fieldList.push({type:'int',value:'activeWorkers',text:'活跃矿机',dictCode:''})
         fieldList.push({type:'int',value:'reportedHashrate',text:'报告算力',dictCode:''})
@@ -256,7 +257,6 @@
         fieldList.push({type:'int',value:'invalidShares',text:'无效份额',dictCode:''})
         fieldList.push({type:'int',value:'staleShares',text:'延迟份额',dictCode:''})
         fieldList.push({type:'date',value:'lastSeen',text:'最后更新'})
-        fieldList.push({type:'string',value:'memberId',text:'会员ID',dictCode:''})
         this.superFieldList = fieldList
       }
     }

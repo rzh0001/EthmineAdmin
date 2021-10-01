@@ -5,10 +5,22 @@
       <a-form layout="inline" @keyup.enter.native="searchQuery">
         <a-row :gutter="24">
           <a-col :xl="6" :lg="7" :md="8" :sm="24">
-            <a-form-item label="矿工昵称">
-              <a-input placeholder="请输入矿工昵称" v-model="queryParam.minerName"></a-input>
+            <a-form-item label="用户名">
+              <a-input placeholder="请输入用户名" v-model="queryParam.username"></a-input>
             </a-form-item>
           </a-col>
+          <a-col :xl="6" :lg="7" :md="8" :sm="24">
+            <a-form-item label="账户状态">
+              <a-input placeholder="请输入账户状态" v-model="queryParam.status"></a-input>
+            </a-form-item>
+          </a-col>
+          <template v-if="toggleSearchStatus">
+            <a-col :xl="6" :lg="7" :md="8" :sm="24">
+              <a-form-item label="VIP类型">
+                <a-input placeholder="请输入VIP类型" v-model="queryParam.vipType"></a-input>
+              </a-form-item>
+            </a-col>
+          </template>
           <a-col :xl="6" :lg="7" :md="8" :sm="24">
             <span style="float: left;overflow: hidden;" class="table-page-search-submitButtons">
               <a-button type="primary" @click="searchQuery" icon="search">查询</a-button>
@@ -27,7 +39,7 @@
     <!-- 操作按钮区域 -->
     <div class="table-operator">
       <a-button @click="handleAdd" type="primary" icon="plus">新增</a-button>
-      <a-button type="primary" icon="download" @click="handleExportXls('ether_miner')">导出</a-button>
+      <a-button type="primary" icon="download" @click="handleExportXls('app_member')">导出</a-button>
       <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">
         <a-button type="primary" icon="import">导入</a-button>
       </a-upload>
@@ -104,7 +116,7 @@
       </a-table>
     </div>
 
-    <ether-miner-modal ref="modalForm" @ok="modalFormOk"></ether-miner-modal>
+    <app-member-modal ref="modalForm" @ok="modalFormOk"></app-member-modal>
   </a-card>
 </template>
 
@@ -113,17 +125,17 @@
   import '@/assets/less/TableExpand.less'
   import { mixinDevice } from '@/utils/mixin'
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
-  import EtherMinerModal from './modules/EtherMinerModal'
+  import AppMemberModal from './modules/AppMemberModal'
 
   export default {
-    name: 'EtherMinerList',
+    name: 'AppMemberList',
     mixins:[JeecgListMixin, mixinDevice],
     components: {
-      EtherMinerModal
+      AppMemberModal
     },
     data () {
       return {
-        description: 'ether_miner管理页面',
+        description: 'app_member管理页面',
         // 表头
         columns: [
           {
@@ -137,65 +149,118 @@
             }
           },
           {
-            title:'矿工昵称',
+            title:'头像',
             align:"center",
-            dataIndex: 'minerName'
+            dataIndex: 'avatar'
           },
           {
-            title:'ETH地址',
+            title:'用户名',
             align:"center",
-            dataIndex: 'minerAddress'
+            dataIndex: 'username'
           },
           {
-            title:'报告时间',
+            title:'邮箱',
             align:"center",
-            dataIndex: 'time',
+            dataIndex: 'email'
+          },
+          {
+            title:'手机',
+            align:"center",
+            dataIndex: 'mobile'
+          },
+          {
+            title:'昵称',
+            align:"center",
+            dataIndex: 'nickname'
+          },
+          {
+            title:'平台',
+            align:"center",
+            dataIndex: 'platform'
+          },
+          {
+            title:'邀请码',
+            align:"center",
+            dataIndex: 'inviteCode'
+          },
+          {
+            title:'邀请人',
+            align:"center",
+            dataIndex: 'inviteBy'
+          },
+          {
+            title:'账户状态',
+            align:"center",
+            dataIndex: 'status'
+          },
+          {
+            title:'VIP类型',
+            align:"center",
+            dataIndex: 'vipType'
+          },
+          {
+            title:'VIP状态',
+            align:"center",
+            dataIndex: 'vipStatus'
+          },
+          {
+            title:'VIP开始时间',
+            align:"center",
+            dataIndex: 'vipStartTime',
             customRender:function (text) {
               return !text?"":(text.length>10?text.substr(0,10):text)
             }
           },
           {
-            title:'最后更新',
+            title:'VIP过期时间',
             align:"center",
-            dataIndex: 'lastSeen',
+            dataIndex: 'vipEndTime',
             customRender:function (text) {
               return !text?"":(text.length>10?text.substr(0,10):text)
             }
           },
           {
-            title:'报告算力',
+            title:'permissions',
             align:"center",
-            dataIndex: 'reportedHashrate'
+            dataIndex: 'permissions'
           },
           {
-            title:'当前算力',
+            title:'性别',
             align:"center",
-            dataIndex: 'currentHashrate'
+            dataIndex: 'sex'
           },
           {
-            title:'有效份额',
+            title:'生日',
             align:"center",
-            dataIndex: 'validShares'
+            dataIndex: 'birth',
+            customRender:function (text) {
+              return !text?"":(text.length>10?text.substr(0,10):text)
+            }
           },
           {
-            title:'无效份额',
+            title:'地址',
             align:"center",
-            dataIndex: 'invalidShares'
+            dataIndex: 'address'
           },
           {
-            title:'延迟份额',
+            title:'grade',
             align:"center",
-            dataIndex: 'staleShares'
+            dataIndex: 'grade'
           },
           {
-            title:'活跃矿机',
+            title:'位置',
             align:"center",
-            dataIndex: 'activeWorkers'
+            dataIndex: 'position'
           },
           {
-            title:'待转账',
+            title:'description',
             align:"center",
-            dataIndex: 'unpaid'
+            dataIndex: 'description'
+          },
+          {
+            title:'delFlag',
+            align:"center",
+            dataIndex: 'delFlag'
           },
           {
             title: '操作',
@@ -207,11 +272,11 @@
           }
         ],
         url: {
-          list: "/eth_hub/etherMiner/list",
-          delete: "/eth_hub/etherMiner/delete",
-          deleteBatch: "/eth_hub/etherMiner/deleteBatch",
-          exportXlsUrl: "/eth_hub/etherMiner/exportXls",
-          importExcelUrl: "eth_hub/etherMiner/importExcel",
+          list: "/eth_hub/appMember/list",
+          delete: "/eth_hub/appMember/delete",
+          deleteBatch: "/eth_hub/appMember/deleteBatch",
+          exportXlsUrl: "/eth_hub/appMember/exportXls",
+          importExcelUrl: "eth_hub/appMember/importExcel",
           
         },
         dictOptions:{},
@@ -231,17 +296,27 @@
       },
       getSuperFieldList(){
         let fieldList=[];
-        fieldList.push({type:'string',value:'minerName',text:'矿工昵称',dictCode:''})
-        fieldList.push({type:'string',value:'minerAddress',text:'ETH地址',dictCode:''})
-        fieldList.push({type:'date',value:'time',text:'报告时间'})
-        fieldList.push({type:'date',value:'lastSeen',text:'最后更新'})
-        fieldList.push({type:'int',value:'reportedHashrate',text:'报告算力',dictCode:''})
-        fieldList.push({type:'double',value:'currentHashrate',text:'当前算力',dictCode:''})
-        fieldList.push({type:'int',value:'validShares',text:'有效份额',dictCode:''})
-        fieldList.push({type:'int',value:'invalidShares',text:'无效份额',dictCode:''})
-        fieldList.push({type:'int',value:'staleShares',text:'延迟份额',dictCode:''})
-        fieldList.push({type:'int',value:'activeWorkers',text:'活跃矿机',dictCode:''})
-        fieldList.push({type:'BigDecimal',value:'unpaid',text:'待转账',dictCode:''})
+        fieldList.push({type:'string',value:'avatar',text:'头像',dictCode:''})
+        fieldList.push({type:'string',value:'username',text:'用户名',dictCode:''})
+        fieldList.push({type:'string',value:'email',text:'邮箱',dictCode:''})
+        fieldList.push({type:'string',value:'mobile',text:'手机',dictCode:''})
+        fieldList.push({type:'string',value:'nickname',text:'昵称',dictCode:''})
+        fieldList.push({type:'int',value:'platform',text:'平台',dictCode:''})
+        fieldList.push({type:'string',value:'inviteCode',text:'邀请码',dictCode:''})
+        fieldList.push({type:'string',value:'inviteBy',text:'邀请人',dictCode:''})
+        fieldList.push({type:'int',value:'status',text:'账户状态',dictCode:''})
+        fieldList.push({type:'int',value:'vipType',text:'VIP类型',dictCode:''})
+        fieldList.push({type:'int',value:'vipStatus',text:'VIP状态',dictCode:''})
+        fieldList.push({type:'date',value:'vipStartTime',text:'VIP开始时间'})
+        fieldList.push({type:'date',value:'vipEndTime',text:'VIP过期时间'})
+        fieldList.push({type:'string',value:'permissions',text:'permissions',dictCode:''})
+        fieldList.push({type:'string',value:'sex',text:'性别',dictCode:''})
+        fieldList.push({type:'date',value:'birth',text:'生日'})
+        fieldList.push({type:'string',value:'address',text:'地址',dictCode:''})
+        fieldList.push({type:'int',value:'grade',text:'grade',dictCode:''})
+        fieldList.push({type:'string',value:'position',text:'位置',dictCode:''})
+        fieldList.push({type:'string',value:'description',text:'description',dictCode:''})
+        fieldList.push({type:'int',value:'delFlag',text:'delFlag',dictCode:''})
         this.superFieldList = fieldList
       }
     }

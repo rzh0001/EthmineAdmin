@@ -174,11 +174,6 @@
             dataIndex: 'nickname'
           },
           {
-            title:'密码',
-            align:"center",
-            dataIndex: 'password'
-          },
-          {
             title:'平台',
             align:"center",
             dataIndex: 'platform'
@@ -306,7 +301,6 @@
         fieldList.push({type:'string',value:'email',text:'邮箱',dictCode:''})
         fieldList.push({type:'string',value:'mobile',text:'手机',dictCode:''})
         fieldList.push({type:'string',value:'nickname',text:'昵称',dictCode:''})
-        fieldList.push({type:'string',value:'password',text:'密码',dictCode:''})
         fieldList.push({type:'int',value:'platform',text:'平台',dictCode:''})
         fieldList.push({type:'string',value:'inviteCode',text:'邀请码',dictCode:''})
         fieldList.push({type:'string',value:'inviteBy',text:'邀请人',dictCode:''})

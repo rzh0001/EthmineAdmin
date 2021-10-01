@@ -41,7 +41,8 @@ export const AllCells = {
   ...mapCell(JVXETypes.rowDragSort, JVxeDragSortCell),
   ...mapCell(JVXETypes.slot, JVxeSlotCell),
   ...mapCell(JVXETypes.departSelect, JVxeDepartSelectCell),
-  ...mapCell(JVXETypes.userSelect, JVxeUserSelectCell)
+  ...mapCell(JVXETypes.userSelect, JVxeUserSelectCell),
+  ...mapCell(JVXETypes.memberSelect, JVxeUserSelectCell)
 
   /* hidden 是特殊的组件，不在这里注册 */
 }

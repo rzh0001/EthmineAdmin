@@ -13,6 +13,11 @@
               <a-input v-model="model.minerAddress" placeholder="请输入ETH地址"  ></a-input>
             </a-form-model-item>
           </a-col>
+          <a-col :span="24">
+            <a-form-model-item label="会员账户" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="memberUsername">
+              <j-select-app-member v-model="model.memberUsername" />
+            </a-form-model-item>
+          </a-col>
         </a-row>
       </a-form-model>
     </j-form-container>
@@ -23,10 +28,12 @@
 
   import { httpAction, getAction } from '@/api/manage'
   import { validateDuplicateValue } from '@/utils/util'
+  import JSelectAppMember from '@comp/jeecgbiz/JSelectAppMember'
 
   export default {
     name: 'EtherMinerForm',
     components: {
+      JSelectAppMember
     },
     props: {
       //表单禁用

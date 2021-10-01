@@ -1,7 +1,7 @@
 <template>
   <a-spin :spinning="confirmLoading">
     <j-form-container :disabled="formDisabled">
-      <a-form-model ref="form" :model="model" :rules="validatorRules" slot="detail">
+      <a-foyarn rm-model ref="form" :model="model" :rules="validatorRules" slot="detail">
         <a-row>
           <a-col :span="24">
             <a-form-model-item label="头像" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="avatar">
@@ -54,7 +54,7 @@
             </a-form-model-item>
           </a-col>
         </a-row>
-      </a-form-model>
+      </a-foyarnrm-model>
     </j-form-container>
   </a-spin>
 </template>
