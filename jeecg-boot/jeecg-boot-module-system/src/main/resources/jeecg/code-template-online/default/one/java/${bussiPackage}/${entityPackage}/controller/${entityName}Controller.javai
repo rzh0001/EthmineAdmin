@@ -45,7 +45,6 @@ import org.jeecg.common.aspect.annotation.AutoLog;
  /**
  * @Description: ${tableVo.ftlDescription}
  * @Author: jeecg-boot
- * @Date:   ${.now?string["yyyy-MM-dd"]}
  * @Version: V1.0
  */
 @Api(tags="${tableVo.ftlDescription}")
