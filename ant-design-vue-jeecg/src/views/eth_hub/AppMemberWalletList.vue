@@ -162,9 +162,9 @@
             dataIndex: 'totalEarnings'
           },
           {
-            title:'delFlag',
+            title:'待入账',
             align:"center",
-            dataIndex: 'delFlag'
+            dataIndex: 'unpaid'
           },
           {
             title: '操作',
@@ -205,6 +205,7 @@
         fieldList.push({type:'string',value:'currency',text:'币种',dictCode:''})
         fieldList.push({type:'BigDecimal',value:'balance',text:'余额',dictCode:''})
         fieldList.push({type:'BigDecimal',value:'totalEarnings',text:'总收益',dictCode:''})
+        fieldList.push({type:'BigDecimal',value:'unpaid',text:'待入账',dictCode:''})
         fieldList.push({type:'int',value:'delFlag',text:'delFlag',dictCode:''})
         this.superFieldList = fieldList
       }

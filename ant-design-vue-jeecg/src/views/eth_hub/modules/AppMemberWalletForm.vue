@@ -28,6 +28,11 @@
               <a-input-number v-model="model.totalEarnings" placeholder="请输入总收益" style="width: 100%" />
             </a-form-model-item>
           </a-col>
+          <a-col :span="24">
+            <a-form-model-item label="待入账" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="unpaid">
+              <a-input-number v-model="model.unpaid" placeholder="请输入待入账" style="width: 100%" />
+            </a-form-model-item>
+          </a-col>
         </a-row>
       </a-form-model>
     </j-form-container>
