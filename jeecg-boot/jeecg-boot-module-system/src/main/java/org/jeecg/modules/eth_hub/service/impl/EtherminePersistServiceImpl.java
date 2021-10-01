@@ -47,7 +47,7 @@ public class EtherminePersistServiceImpl implements EtherminePersistService {
         BeanUtil.copyProperties(current, miner);
         miner.setUnpaid(BigDecimal.valueOf(current.getUnpaid()).divide(new BigDecimal("1000000000000000000")));
         miner.setCurrentHashrate(current.getCurrentHashrate() / 1000000);
-        miner.setReportedHashrate((int) (current.getReportedHashrate() / 1000000));
+        miner.setReportedHashrate(Double.valueOf(current.getReportedHashrate() / 1000000));
         miner.setTime(Timestamp.valueOf(LocalDateTimeUtil.of(Long.valueOf(current.getTime()) * 1000)));
         miner.setLastSeen(Timestamp.valueOf(LocalDateTimeUtil.of(Long.valueOf(current.getLastSeen()) * 1000)));
 

@@ -7,22 +7,34 @@ import org.jeecg.common.constant.CommonConstant;
 import org.jeecg.common.exception.JeecgBootException;
 import org.jeecg.common.system.util.JwtUtil;
 import org.jeecg.common.util.RedisUtil;
+import org.jeecg.modules.demo.eth_hub.dao.AppMemberWalletRepository;
+import org.jeecg.modules.demo.eth_hub.dao.EtherMinerRepository;
 import org.jeecg.modules.demo.eth_hub.entity.AppMember;
+import org.jeecg.modules.demo.eth_hub.entity.AppMemberWallet;
+import org.jeecg.modules.demo.eth_hub.entity.EtherMiner;
 import org.jeecg.modules.demo.eth_hub.service.IAppMemberService;
 import org.jeecg.modules.demo.eth_hub.service.IAppMemberWalletService;
 import org.jeecg.modules.eth_hub.dao.AppMemberRepository;
+import org.jeecg.modules.eth_hub.entity.AppMemberMiningData;
 import org.jeecg.modules.eth_hub.entity.AppUser;
-import org.jeecg.modules.eth_hub.service.AppMemberManageService;
+import org.jeecg.modules.eth_hub.service.AppMemberApiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AppMemberManageServiceImpl implements AppMemberManageService {
+public class AppMemberApiServiceImpl implements AppMemberApiService {
     @Autowired
     private IAppMemberService memberService;
 
     @Autowired
     private AppMemberRepository dao;
+
+    @Autowired
+    private EtherMinerRepository minerDao;
+
+    @Autowired
+    private AppMemberWalletRepository walletDao;
+
 
     @Autowired
     private RedisUtil redisUtil;
@@ -83,6 +95,31 @@ public class AppMemberManageServiceImpl implements AppMemberManageService {
     @Override
     public void logout(AppUser user) {
 
+    }
+
+    @Override
+    public AppMemberMiningData mingData(String username) {
+        AppMember member = dao.findByUsername(username);
+        if (BeanUtil.isEmpty(member)) {
+            throw new JeecgBootException("用户不存在");
+        }
+        if (member.getStatus() != 1) {
+            throw new JeecgBootException("用户未激活");
+        }
+
+        AppMemberMiningData data = new AppMemberMiningData();
+
+        EtherMiner miner = minerDao.findByMemberUsername(username);
+        BeanUtil.copyProperties(miner, data);
+
+        AppMemberWallet wallet = walletDao.findByMemberUsernameAndCurrency(username, "ETH");
+        data.setBalance(wallet.getBalance());
+        data.setTotalEarnings(wallet.getTotalEarnings());
+
+        //TODO 会员矿机总数
+        data.setWorkers(50);
+
+        return data;
     }
 
 

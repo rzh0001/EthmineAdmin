@@ -2,13 +2,11 @@ package org.jeecg.modules.eth_hub.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.jeecg.common.api.vo.Result;
+import org.jeecg.modules.eth_hub.entity.AppMemberMiningData;
 import org.jeecg.modules.eth_hub.entity.AppUser;
-import org.jeecg.modules.eth_hub.service.AppMemberManageService;
+import org.jeecg.modules.eth_hub.service.AppMemberApiService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.HashMap;
@@ -20,22 +18,29 @@ import java.util.Map;
 public class AppMemberApiController {
 
     @Autowired
-    private AppMemberManageService memberManageService;
+    private AppMemberApiService api;
 
     @PostMapping(value = "/register")
-    public Result register(@RequestBody @Valid AppUser member) {
+    public Result<?> register(@RequestBody @Valid AppUser member) {
         log.info("member register:{}", member);
-        memberManageService.register(member);
+        api.register(member);
 
         return Result.OK();
     }
 
-    @PostMapping(value = "login")
-    public Result login(@RequestBody @Valid AppUser member) {
+    @PostMapping(value = "/login")
+    public Result<?> login(@RequestBody @Valid AppUser member) {
         log.info("member register:{}", member);
-        String token = memberManageService.login(member);
+        String token = api.login(member);
         Map map = new HashMap();
-        map.put("access_token", token);
+        map.put("accessToken", token);
         return Result.OK(map);
+    }
+
+    @GetMapping(value = "/miningData/{username}")
+    public Result<?> miningDate(@PathVariable String username) {
+        AppMemberMiningData data = api.mingData(username);
+        return Result.OK(data);
+
     }
 }

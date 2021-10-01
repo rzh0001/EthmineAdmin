@@ -70,7 +70,7 @@ public class EtherMiner implements Serializable {
 	/**报告算力*/
 	@Excel(name = "报告算力", width = 15)
     @ApiModelProperty(value = "报告算力")
-    private java.lang.Integer reportedHashrate;
+    private java.lang.Double reportedHashrate;
 	/**当前算力*/
 	@Excel(name = "当前算力", width = 15)
     @ApiModelProperty(value = "当前算力")
