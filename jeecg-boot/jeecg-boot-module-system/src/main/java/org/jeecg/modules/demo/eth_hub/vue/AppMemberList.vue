@@ -11,7 +11,7 @@
           </a-col>
           <a-col :xl="6" :lg="7" :md="8" :sm="24">
             <a-form-item label="账户状态">
-              <a-input placeholder="请输入账户状态" v-model="queryParam.status"></a-input>
+              <j-dict-select-tag placeholder="请选择账户状态" v-model="queryParam.status" dictCode="member_status"/>
             </a-form-item>
           </a-col>
           <template v-if="toggleSearchStatus">
@@ -126,6 +126,7 @@
   import { mixinDevice } from '@/utils/mixin'
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
   import AppMemberModal from './modules/AppMemberModal'
+  import {filterMultiDictText} from '@/components/dict/JDictSelectUtil'
 
   export default {
     name: 'AppMemberList',
@@ -186,33 +187,7 @@
           {
             title:'账户状态',
             align:"center",
-            dataIndex: 'status'
-          },
-          {
-            title:'VIP类型',
-            align:"center",
-            dataIndex: 'vipType'
-          },
-          {
-            title:'VIP状态',
-            align:"center",
-            dataIndex: 'vipStatus'
-          },
-          {
-            title:'VIP开始时间',
-            align:"center",
-            dataIndex: 'vipStartTime',
-            customRender:function (text) {
-              return !text?"":(text.length>10?text.substr(0,10):text)
-            }
-          },
-          {
-            title:'VIP过期时间',
-            align:"center",
-            dataIndex: 'vipEndTime',
-            customRender:function (text) {
-              return !text?"":(text.length>10?text.substr(0,10):text)
-            }
+            dataIndex: 'status_dictText'
           },
           {
             title:'手续费率',
@@ -260,11 +235,8 @@
         fieldList.push({type:'int',value:'platform',text:'平台',dictCode:''})
         fieldList.push({type:'string',value:'inviteCode',text:'邀请码',dictCode:''})
         fieldList.push({type:'string',value:'inviteBy',text:'邀请人',dictCode:''})
-        fieldList.push({type:'int',value:'status',text:'账户状态',dictCode:''})
+        fieldList.push({type:'int',value:'status',text:'账户状态',dictCode:'member_status'})
         fieldList.push({type:'int',value:'vipType',text:'VIP类型',dictCode:''})
-        fieldList.push({type:'int',value:'vipStatus',text:'VIP状态',dictCode:''})
-        fieldList.push({type:'date',value:'vipStartTime',text:'VIP开始时间'})
-        fieldList.push({type:'date',value:'vipEndTime',text:'VIP过期时间'})
         fieldList.push({type:'BigDecimal',value:'chargeRate',text:'手续费率',dictCode:''})
         this.superFieldList = fieldList
       }

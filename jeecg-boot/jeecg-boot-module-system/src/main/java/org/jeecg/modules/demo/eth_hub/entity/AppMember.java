@@ -75,7 +75,8 @@ public class AppMember implements Serializable {
     @ApiModelProperty(value = "邀请人")
     private java.lang.String inviteBy;
 	/**账户状态*/
-	@Excel(name = "账户状态", width = 15)
+	@Excel(name = "账户状态", width = 15, dicCode = "member_status")
+	@Dict(dicCode = "member_status")
     @ApiModelProperty(value = "账户状态")
     private java.lang.Integer status;
 	/**VIP类型*/

@@ -25,27 +25,7 @@
           </a-col>
           <a-col :span="24">
             <a-form-model-item label="账户状态" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="status">
-              <a-input-number v-model="model.status" placeholder="请输入账户状态" style="width: 100%" />
-            </a-form-model-item>
-          </a-col>
-          <a-col :span="24">
-            <a-form-model-item label="VIP类型" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="vipType">
-              <a-input-number v-model="model.vipType" placeholder="请输入VIP类型" style="width: 100%" />
-            </a-form-model-item>
-          </a-col>
-          <a-col :span="24">
-            <a-form-model-item label="VIP状态" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="vipStatus">
-              <a-input-number v-model="model.vipStatus" placeholder="请输入VIP状态" style="width: 100%" />
-            </a-form-model-item>
-          </a-col>
-          <a-col :span="24">
-            <a-form-model-item label="VIP开始时间" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="vipStartTime">
-              <j-date placeholder="请选择VIP开始时间" v-model="model.vipStartTime"  style="width: 100%" />
-            </a-form-model-item>
-          </a-col>
-          <a-col :span="24">
-            <a-form-model-item label="VIP过期时间" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="vipEndTime">
-              <j-date placeholder="请选择VIP过期时间" v-model="model.vipEndTime"  style="width: 100%" />
+              <j-dict-select-tag type="list" v-model="model.status" dictCode="member_status" placeholder="请选择账户状态" />
             </a-form-model-item>
           </a-col>
           <a-col :span="24">

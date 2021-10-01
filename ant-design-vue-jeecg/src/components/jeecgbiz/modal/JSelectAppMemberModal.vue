@@ -225,8 +225,9 @@
           this.ipagination.current = 1;
         }
         let params = this.getQueryParams()//查询条件
+        params.satus = 1
         this.loading = true
-        getAction('/eth_hub/appMember/list', params).then(res=>{
+        getAction('/eth_hub/appMember/getActiveMembers', params).then(res=>{
           if (res.success) {
             this.dataSource = res.result.records
             this.ipagination.total = res.result.total

@@ -16,13 +16,15 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 /**
  * @Description: app_member_wallet
  * @Author: jeecg-boot
- * @Date:   2021-09-29
  * @Version: V1.0
  */
+@Entity
 @Data
 @TableName("app_member_wallet")
 @Accessors(chain = true)
@@ -32,6 +34,7 @@ public class AppMemberWallet implements Serializable {
     private static final long serialVersionUID = 1L;
 
 	/**钱包ID*/
+	@Id
 	@TableId(type = IdType.ASSIGN_ID)
     @ApiModelProperty(value = "钱包ID")
     private java.lang.String id;
@@ -55,6 +58,10 @@ public class AppMemberWallet implements Serializable {
 	@Excel(name = "总收益", width = 15)
     @ApiModelProperty(value = "总收益")
     private java.math.BigDecimal totalEarnings;
+	/**待入账*/
+	@Excel(name = "待入账", width = 15)
+    @ApiModelProperty(value = "待入账")
+    private java.math.BigDecimal unpaid;
 	/**创建人*/
     @ApiModelProperty(value = "创建人")
     private java.lang.String createBy;

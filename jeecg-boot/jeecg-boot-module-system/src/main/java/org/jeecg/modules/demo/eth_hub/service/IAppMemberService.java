@@ -1,7 +1,7 @@
 package org.jeecg.modules.demo.eth_hub.service;
 
-import org.jeecg.modules.demo.eth_hub.entity.AppMember;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.jeecg.modules.demo.eth_hub.entity.AppMember;
 
 /**
  * @Description: app_member
@@ -10,4 +10,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IAppMemberService extends IService<AppMember> {
 
+    /**
+     * 激活会员账户
+     *
+     * @param member
+     */
+    void activeMemberWallet(AppMember member);
 }

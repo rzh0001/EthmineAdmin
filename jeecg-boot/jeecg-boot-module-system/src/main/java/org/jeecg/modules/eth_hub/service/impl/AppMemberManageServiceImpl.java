@@ -9,6 +9,7 @@ import org.jeecg.common.system.util.JwtUtil;
 import org.jeecg.common.util.RedisUtil;
 import org.jeecg.modules.demo.eth_hub.entity.AppMember;
 import org.jeecg.modules.demo.eth_hub.service.IAppMemberService;
+import org.jeecg.modules.demo.eth_hub.service.IAppMemberWalletService;
 import org.jeecg.modules.eth_hub.dao.AppMemberRepository;
 import org.jeecg.modules.eth_hub.entity.AppUser;
 import org.jeecg.modules.eth_hub.service.AppMemberManageService;
@@ -25,6 +26,9 @@ public class AppMemberManageServiceImpl implements AppMemberManageService {
 
     @Autowired
     private RedisUtil redisUtil;
+
+    @Autowired
+    private IAppMemberWalletService walletService;
 
 
     @Override
@@ -47,6 +51,10 @@ public class AppMemberManageServiceImpl implements AppMemberManageService {
         newMember.setStatus(0); // 未激活
 
         memberService.save(newMember);
+
+        // wallet
+//        AppMemberWallet wallet = new AppMemberWallet();
+//        wallet.setMemberId(newMember.get)
 
 
     }
