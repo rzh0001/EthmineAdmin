@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.system.query.QueryGenerator;
 import org.jeecg.common.util.oConvertUtils;
-import org.jeecg.modules.demo.eth_hub.entity.EtherMiner;
-import org.jeecg.modules.demo.eth_hub.service.IEtherMinerService;
+import org.jeecg.modules.demo.eth_hub.entity.AppMember;
+import org.jeecg.modules.demo.eth_hub.service.IAppMemberService;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -37,66 +37,66 @@ import io.swagger.annotations.ApiOperation;
 import org.jeecg.common.aspect.annotation.AutoLog;
 
  /**
- * @Description: ether_miner
+ * @Description: app_member
  * @Author: jeecg-boot
  * @Date:   2021-09-30
  * @Version: V1.0
  */
-@Api(tags="ether_miner")
+@Api(tags="app_member")
 @RestController
-@RequestMapping("/eth_hub/etherMiner")
+@RequestMapping("/eth_hub/appMember")
 @Slf4j
-public class EtherMinerController extends JeecgController<EtherMiner, IEtherMinerService> {
+public class AppMemberController extends JeecgController<AppMember, IAppMemberService> {
 	@Autowired
-	private IEtherMinerService etherMinerService;
+	private IAppMemberService appMemberService;
 	
 	/**
 	 * 分页列表查询
 	 *
-	 * @param etherMiner
+	 * @param appMember
 	 * @param pageNo
 	 * @param pageSize
 	 * @param req
 	 * @return
 	 */
-	@AutoLog(value = "ether_miner-分页列表查询")
-	@ApiOperation(value="ether_miner-分页列表查询", notes="ether_miner-分页列表查询")
+	@AutoLog(value = "app_member-分页列表查询")
+	@ApiOperation(value="app_member-分页列表查询", notes="app_member-分页列表查询")
 	@GetMapping(value = "/list")
-	public Result<?> queryPageList(EtherMiner etherMiner,
+	public Result<?> queryPageList(AppMember appMember,
 								   @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
 								   @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
 								   HttpServletRequest req) {
-		QueryWrapper<EtherMiner> queryWrapper = QueryGenerator.initQueryWrapper(etherMiner, req.getParameterMap());
-		Page<EtherMiner> page = new Page<EtherMiner>(pageNo, pageSize);
-		IPage<EtherMiner> pageList = etherMinerService.page(page, queryWrapper);
+		QueryWrapper<AppMember> queryWrapper = QueryGenerator.initQueryWrapper(appMember, req.getParameterMap());
+		Page<AppMember> page = new Page<AppMember>(pageNo, pageSize);
+		IPage<AppMember> pageList = appMemberService.page(page, queryWrapper);
 		return Result.OK(pageList);
 	}
 	
 	/**
 	 *   添加
 	 *
-	 * @param etherMiner
+	 * @param appMember
 	 * @return
 	 */
-	@AutoLog(value = "ether_miner-添加")
-	@ApiOperation(value="ether_miner-添加", notes="ether_miner-添加")
+	@AutoLog(value = "app_member-添加")
+	@ApiOperation(value="app_member-添加", notes="app_member-添加")
 	@PostMapping(value = "/add")
-	public Result<?> add(@RequestBody EtherMiner etherMiner) {
-		etherMinerService.save(etherMiner);
+	public Result<?> add(@RequestBody AppMember appMember) {
+		appMemberService.save(appMember);
 		return Result.OK("添加成功！");
 	}
 	
 	/**
 	 *  编辑
 	 *
-	 * @param etherMiner
+	 * @param appMember
 	 * @return
 	 */
-	@AutoLog(value = "ether_miner-编辑")
-	@ApiOperation(value="ether_miner-编辑", notes="ether_miner-编辑")
+	@AutoLog(value = "app_member-编辑")
+	@ApiOperation(value="app_member-编辑", notes="app_member-编辑")
 	@PutMapping(value = "/edit")
-	public Result<?> edit(@RequestBody EtherMiner etherMiner) {
-		etherMinerService.updateById(etherMiner);
+	public Result<?> edit(@RequestBody AppMember appMember) {
+		appMemberService.updateById(appMember);
 		return Result.OK("编辑成功!");
 	}
 	
@@ -106,11 +106,11 @@ public class EtherMinerController extends JeecgController<EtherMiner, IEtherMine
 	 * @param id
 	 * @return
 	 */
-	@AutoLog(value = "ether_miner-通过id删除")
-	@ApiOperation(value="ether_miner-通过id删除", notes="ether_miner-通过id删除")
+	@AutoLog(value = "app_member-通过id删除")
+	@ApiOperation(value="app_member-通过id删除", notes="app_member-通过id删除")
 	@DeleteMapping(value = "/delete")
 	public Result<?> delete(@RequestParam(name="id",required=true) String id) {
-		etherMinerService.removeById(id);
+		appMemberService.removeById(id);
 		return Result.OK("删除成功!");
 	}
 	
@@ -120,11 +120,11 @@ public class EtherMinerController extends JeecgController<EtherMiner, IEtherMine
 	 * @param ids
 	 * @return
 	 */
-	@AutoLog(value = "ether_miner-批量删除")
-	@ApiOperation(value="ether_miner-批量删除", notes="ether_miner-批量删除")
+	@AutoLog(value = "app_member-批量删除")
+	@ApiOperation(value="app_member-批量删除", notes="app_member-批量删除")
 	@DeleteMapping(value = "/deleteBatch")
 	public Result<?> deleteBatch(@RequestParam(name="ids",required=true) String ids) {
-		this.etherMinerService.removeByIds(Arrays.asList(ids.split(",")));
+		this.appMemberService.removeByIds(Arrays.asList(ids.split(",")));
 		return Result.OK("批量删除成功!");
 	}
 	
@@ -134,26 +134,26 @@ public class EtherMinerController extends JeecgController<EtherMiner, IEtherMine
 	 * @param id
 	 * @return
 	 */
-	@AutoLog(value = "ether_miner-通过id查询")
-	@ApiOperation(value="ether_miner-通过id查询", notes="ether_miner-通过id查询")
+	@AutoLog(value = "app_member-通过id查询")
+	@ApiOperation(value="app_member-通过id查询", notes="app_member-通过id查询")
 	@GetMapping(value = "/queryById")
 	public Result<?> queryById(@RequestParam(name="id",required=true) String id) {
-		EtherMiner etherMiner = etherMinerService.getById(id);
-		if(etherMiner==null) {
+		AppMember appMember = appMemberService.getById(id);
+		if(appMember==null) {
 			return Result.error("未找到对应数据");
 		}
-		return Result.OK(etherMiner);
+		return Result.OK(appMember);
 	}
 
     /**
     * 导出excel
     *
     * @param request
-    * @param etherMiner
+    * @param appMember
     */
     @RequestMapping(value = "/exportXls")
-    public ModelAndView exportXls(HttpServletRequest request, EtherMiner etherMiner) {
-        return super.exportXls(request, etherMiner, EtherMiner.class, "ether_miner");
+    public ModelAndView exportXls(HttpServletRequest request, AppMember appMember) {
+        return super.exportXls(request, appMember, AppMember.class, "app_member");
     }
 
     /**
@@ -165,7 +165,7 @@ public class EtherMinerController extends JeecgController<EtherMiner, IEtherMine
     */
     @RequestMapping(value = "/importExcel", method = RequestMethod.POST)
     public Result<?> importExcel(HttpServletRequest request, HttpServletResponse response) {
-        return super.importExcel(request, response, EtherMiner.class);
+        return super.importExcel(request, response, AppMember.class);
     }
 
 }

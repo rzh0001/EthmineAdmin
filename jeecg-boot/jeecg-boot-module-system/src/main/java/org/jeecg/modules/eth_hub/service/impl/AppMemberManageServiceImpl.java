@@ -7,11 +7,11 @@ import org.jeecg.common.constant.CommonConstant;
 import org.jeecg.common.exception.JeecgBootException;
 import org.jeecg.common.system.util.JwtUtil;
 import org.jeecg.common.util.RedisUtil;
+import org.jeecg.modules.demo.eth_hub.entity.AppMember;
+import org.jeecg.modules.demo.eth_hub.service.IAppMemberService;
 import org.jeecg.modules.eth_hub.dao.AppMemberRepository;
-import org.jeecg.modules.eth_hub.entity.AppMember;
 import org.jeecg.modules.eth_hub.entity.AppUser;
 import org.jeecg.modules.eth_hub.service.AppMemberManageService;
-import org.jeecg.modules.eth_hub.service.IAppMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -21,13 +21,13 @@ public class EthermineApiImpl implements EthermineApi {
 
     @Override
     public MinerDashboard minerDashboard(String ethAddress) {
-        String res = RuanTool.httpGet(poolUrl + RuanTool.concat(minerDashboard, miner));
+        String res = RuanTool.httpGet(poolUrl + RuanTool.concat(minerDashboard, ethAddress));
         return JSONUtil.toBean(res, MinerDashboard.class);
     }
 
     @Override
     public Payout minerPayouts(String ethAddress) {
-        String res = RuanTool.httpGet(poolUrl + RuanTool.concat(minerPayouts, miner));
+        String res = RuanTool.httpGet(poolUrl + RuanTool.concat(minerPayouts, ethAddress));
         return JSONUtil.toBean(res, Payout.class);
     }
 }

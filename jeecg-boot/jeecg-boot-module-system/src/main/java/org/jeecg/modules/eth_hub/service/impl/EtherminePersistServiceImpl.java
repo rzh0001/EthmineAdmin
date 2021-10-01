@@ -41,12 +41,16 @@ public class EtherminePersistServiceImpl implements EtherminePersistService {
             return;
         }
 
-        log.info("unpaid: {}", res.getData().getCurrentStatistics().getUnpaid());
+        MinerDashboard.DataDTO.CurrentStatisticsDTO current = res.getData().getCurrentStatistics();
+        log.info("unpaid: {}", current.getUnpaid());
 
-        BeanUtil.copyProperties(res.getData().getCurrentStatistics(), miner);
-        miner.setTime(Timestamp.valueOf(LocalDateTimeUtil.of(res.getData().getCurrentStatistics().getTime() * 1000)));
-        miner.setLastSeen(Timestamp.valueOf(LocalDateTimeUtil.of(res.getData().getCurrentStatistics().getLastSeen() * 1000)));
-        miner.setUnpaid(BigDecimal.valueOf(res.getData().getCurrentStatistics().getUnpaid()));
+        BeanUtil.copyProperties(current, miner);
+        miner.setUnpaid(BigDecimal.valueOf(current.getUnpaid()).divide(new BigDecimal("1000000000000000000")));
+        miner.setCurrentHashrate(current.getCurrentHashrate() / 1000000);
+        miner.setReportedHashrate((int) (current.getReportedHashrate() / 1000000));
+        miner.setTime(Timestamp.valueOf(LocalDateTimeUtil.of(Long.valueOf(current.getTime()) * 1000)));
+        miner.setLastSeen(Timestamp.valueOf(LocalDateTimeUtil.of(Long.valueOf(current.getLastSeen()) * 1000)));
+
         minerService.saveOrUpdate(miner);
 
 
