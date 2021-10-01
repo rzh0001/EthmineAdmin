@@ -39,7 +39,6 @@ import org.jeecg.common.aspect.annotation.AutoLog;
  /**
  * @Description: ether_miner
  * @Author: jeecg-boot
- * @Date:   2021-09-30
  * @Version: V1.0
  */
 @Api(tags="ether_miner")

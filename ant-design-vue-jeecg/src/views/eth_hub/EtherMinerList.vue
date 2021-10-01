@@ -17,7 +17,7 @@
           <template v-if="toggleSearchStatus">
             <a-col :xl="6" :lg="7" :md="8" :sm="24">
               <a-form-item label="会员账户">
-                <j-select-user-by-dep placeholder="请选择会员账户" v-model="queryParam.memberUsername"/>
+                <j-select-app-member placeholder="请选择会员账户" v-model="queryParam.memberUsername"/>
               </a-form-item>
             </a-col>
           </template>
@@ -95,7 +95,7 @@
         </template>
 
         <span slot="action" slot-scope="text, record">
-          <a @click="handleEdit(record)">编辑</a>
+          <a @click="handleEdit(record)" v-if='columns.memberUsername == null'>编辑</a>
 
           <a-divider type="vertical" />
           <a-dropdown>
@@ -126,11 +126,13 @@
   import { mixinDevice } from '@/utils/mixin'
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
   import EtherMinerModal from './modules/EtherMinerModal'
+  import JSelectAppMember from '@comp/jeecgbiz/JSelectAppMember'
 
   export default {
     name: 'EtherMinerList',
     mixins:[JeecgListMixin, mixinDevice],
     components: {
+      JSelectAppMember,
       EtherMinerModal
     },
     data () {
@@ -206,10 +208,7 @@
           {
             title:'最后更新',
             align:"center",
-            dataIndex: 'lastSeen',
-            customRender:function (text) {
-              return !text?"":(text.length>10?text.substr(0,10):text)
-            }
+            dataIndex: 'lastSeen'
           },
           {
             title: '操作',
@@ -256,7 +255,7 @@
         fieldList.push({type:'int',value:'validShares',text:'有效份额',dictCode:''})
         fieldList.push({type:'int',value:'invalidShares',text:'无效份额',dictCode:''})
         fieldList.push({type:'int',value:'staleShares',text:'延迟份额',dictCode:''})
-        fieldList.push({type:'date',value:'lastSeen',text:'最后更新'})
+        fieldList.push({type:'datetime',value:'lastSeen',text:'最后更新'})
         this.superFieldList = fieldList
       }
     }

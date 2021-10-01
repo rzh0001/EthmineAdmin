@@ -17,7 +17,7 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequestMapping(value = "/app/member")
-public class AppMemberManageController {
+public class AppMemberApiController {
 
     @Autowired
     private AppMemberManageService memberManageService;

@@ -149,11 +149,6 @@
             }
           },
           {
-            title:'头像',
-            align:"center",
-            dataIndex: 'avatar'
-          },
-          {
             title:'用户名',
             align:"center",
             dataIndex: 'username'
@@ -220,47 +215,9 @@
             }
           },
           {
-            title:'permissions',
+            title:'手续费率',
             align:"center",
-            dataIndex: 'permissions'
-          },
-          {
-            title:'性别',
-            align:"center",
-            dataIndex: 'sex'
-          },
-          {
-            title:'生日',
-            align:"center",
-            dataIndex: 'birth',
-            customRender:function (text) {
-              return !text?"":(text.length>10?text.substr(0,10):text)
-            }
-          },
-          {
-            title:'地址',
-            align:"center",
-            dataIndex: 'address'
-          },
-          {
-            title:'grade',
-            align:"center",
-            dataIndex: 'grade'
-          },
-          {
-            title:'位置',
-            align:"center",
-            dataIndex: 'position'
-          },
-          {
-            title:'description',
-            align:"center",
-            dataIndex: 'description'
-          },
-          {
-            title:'delFlag',
-            align:"center",
-            dataIndex: 'delFlag'
+            dataIndex: 'chargeRate'
           },
           {
             title: '操作',
@@ -296,7 +253,6 @@
       },
       getSuperFieldList(){
         let fieldList=[];
-        fieldList.push({type:'string',value:'avatar',text:'头像',dictCode:''})
         fieldList.push({type:'string',value:'username',text:'用户名',dictCode:''})
         fieldList.push({type:'string',value:'email',text:'邮箱',dictCode:''})
         fieldList.push({type:'string',value:'mobile',text:'手机',dictCode:''})
@@ -309,14 +265,7 @@
         fieldList.push({type:'int',value:'vipStatus',text:'VIP状态',dictCode:''})
         fieldList.push({type:'date',value:'vipStartTime',text:'VIP开始时间'})
         fieldList.push({type:'date',value:'vipEndTime',text:'VIP过期时间'})
-        fieldList.push({type:'string',value:'permissions',text:'permissions',dictCode:''})
-        fieldList.push({type:'string',value:'sex',text:'性别',dictCode:''})
-        fieldList.push({type:'date',value:'birth',text:'生日'})
-        fieldList.push({type:'string',value:'address',text:'地址',dictCode:''})
-        fieldList.push({type:'int',value:'grade',text:'grade',dictCode:''})
-        fieldList.push({type:'string',value:'position',text:'位置',dictCode:''})
-        fieldList.push({type:'string',value:'description',text:'description',dictCode:''})
-        fieldList.push({type:'int',value:'delFlag',text:'delFlag',dictCode:''})
+        fieldList.push({type:'BigDecimal',value:'chargeRate',text:'手续费率',dictCode:''})
         this.superFieldList = fieldList
       }
     }

@@ -1,13 +1,8 @@
 <template>
   <a-spin :spinning="confirmLoading">
     <j-form-container :disabled="formDisabled">
-      <a-foyarn rm-model ref="form" :model="model" :rules="validatorRules" slot="detail">
+      <a-form-model ref="form" :model="model" :rules="validatorRules" slot="detail">
         <a-row>
-          <a-col :span="24">
-            <a-form-model-item label="头像" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="avatar">
-              <a-input v-model="model.avatar" placeholder="请输入头像"  ></a-input>
-            </a-form-model-item>
-          </a-col>
           <a-col :span="24">
             <a-form-model-item label="用户名" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="username">
               <a-input v-model="model.username" placeholder="请输入用户名"  ></a-input>
@@ -53,8 +48,13 @@
               <j-date placeholder="请选择VIP过期时间" v-model="model.vipEndTime"  style="width: 100%" />
             </a-form-model-item>
           </a-col>
+          <a-col :span="24">
+            <a-form-model-item label="手续费率" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="chargeRate">
+              <a-input-number v-model="model.chargeRate" placeholder="请输入手续费率" style="width: 100%" />
+            </a-form-model-item>
+          </a-col>
         </a-row>
-      </a-foyarnrm-model>
+      </a-form-model>
     </j-form-container>
   </a-spin>
 </template>

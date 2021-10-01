@@ -22,7 +22,6 @@ import javax.persistence.Id;
 /**
  * @Description: app_member
  * @Author: jeecg-boot
- * @Date:   2021-09-30
  * @Version: V1.0
  */
 @Entity
@@ -149,4 +148,8 @@ public class AppMember implements Serializable {
 	@Excel(name = "delFlag", width = 15)
     @ApiModelProperty(value = "delFlag")
     private java.lang.Integer delFlag;
+	/**手续费率*/
+	@Excel(name = "手续费率", width = 15)
+    @ApiModelProperty(value = "手续费率")
+    private java.math.BigDecimal chargeRate;
 }

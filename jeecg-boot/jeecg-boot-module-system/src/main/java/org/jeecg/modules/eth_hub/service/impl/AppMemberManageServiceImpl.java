@@ -44,6 +44,7 @@ public class AppMemberManageServiceImpl implements AppMemberManageService {
         AppMember newMember = new AppMember();
         BeanUtil.copyProperties(register, newMember);
         newMember.setUsername(register.getEmail());
+        newMember.setStatus(0); // 未激活
 
         memberService.save(newMember);
 
