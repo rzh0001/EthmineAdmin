@@ -39,12 +39,15 @@ public class AppMemberWalletServiceImpl extends ServiceImpl<AppMemberWalletMappe
     @Override
     public IPage<AppMemberWallet> page(Page<AppMemberWallet> page, QueryWrapper<AppMemberWallet> queryWrapper) {
         Page<AppMemberWallet> walletPage = getBaseMapper().selectPage(page, queryWrapper);
-        walletPage.getRecords().forEach(wallet -> {
+        for (AppMemberWallet wallet : walletPage.getRecords()) {
             EtherMiner miner = minerDao.findByMemberUsername(wallet.getMemberUsername());
+            if (BeanUtil.isEmpty(miner)) {
+                continue;
+            }
             AppMember member = memberDao.findByUsername(wallet.getMemberUsername());
 
             wallet.setUnpaid(miner.getUnpaid().multiply(BigDecimal.ONE.subtract(member.getChargeRate())));
-        });
+        }
         return walletPage;
     }
 
@@ -59,8 +62,9 @@ public class AppMemberWalletServiceImpl extends ServiceImpl<AppMemberWalletMappe
 
         AppMemberWallet wallet = new AppMemberWallet();
         wallet.setMemberId(member.getId());
-        wallet.setCurrency(currency);
         wallet.setMemberUsername(member.getUsername());
+        wallet.setMemberNickname(member.getNickname());
+        wallet.setCurrency(currency);
         wallet.setBalance(BigDecimal.ZERO);
         wallet.setTotalEarnings(BigDecimal.ZERO);
         save(wallet);

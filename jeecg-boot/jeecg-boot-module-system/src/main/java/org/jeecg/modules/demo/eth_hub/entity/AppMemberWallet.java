@@ -46,6 +46,10 @@ public class AppMemberWallet implements Serializable {
 	@Excel(name = "会员账户", width = 15)
     @ApiModelProperty(value = "会员账户")
     private java.lang.String memberUsername;
+	/**会员昵称*/
+	@Excel(name = "会员昵称", width = 15)
+    @ApiModelProperty(value = "会员昵称")
+    private java.lang.String memberNickname;
 	/**币种*/
 	@Excel(name = "币种", width = 15)
     @ApiModelProperty(value = "币种")

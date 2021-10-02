@@ -4,33 +4,33 @@
       <a-form-model ref="form" :model="model" :rules="validatorRules" slot="detail">
         <a-row>
           <a-col :span="24">
-            <a-form-model-item label="会员ID" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="memberId">
-              <a-input v-model="model.memberId" placeholder="请输入会员ID"  ></a-input>
-            </a-form-model-item>
-          </a-col>
-          <a-col :span="24">
             <a-form-model-item label="会员账户" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="memberUsername">
-              <a-input v-model="model.memberUsername" placeholder="请输入会员账户"  ></a-input>
+              <a-input v-model="model.memberUsername" placeholder="请输入会员账户" disabled ></a-input>
             </a-form-model-item>
           </a-col>
           <a-col :span="24">
             <a-form-model-item label="币种" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="currency">
-              <a-input v-model="model.currency" placeholder="请输入币种"  ></a-input>
+              <a-input v-model="model.currency" placeholder="请输入币种" disabled ></a-input>
             </a-form-model-item>
           </a-col>
           <a-col :span="24">
             <a-form-model-item label="余额" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="balance">
-              <a-input-number v-model="model.balance" placeholder="请输入余额" style="width: 100%" />
+              <a-input-number v-model="model.balance" placeholder="请输入余额" style="width: 100%" disabled/>
             </a-form-model-item>
           </a-col>
           <a-col :span="24">
             <a-form-model-item label="总收益" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="totalEarnings">
-              <a-input-number v-model="model.totalEarnings" placeholder="请输入总收益" style="width: 100%" />
+              <a-input-number v-model="model.totalEarnings" placeholder="请输入总收益" style="width: 100%" disabled/>
             </a-form-model-item>
           </a-col>
           <a-col :span="24">
             <a-form-model-item label="待入账" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="unpaid">
-              <a-input-number v-model="model.unpaid" placeholder="请输入待入账" style="width: 100%" />
+              <a-input-number v-model="model.unpaid" placeholder="请输入待入账" style="width: 100%" disabled/>
+            </a-form-model-item>
+          </a-col>
+          <a-col :span="24">
+            <a-form-model-item label="会员昵称" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="memberNickname">
+              <a-input v-model="model.memberNickname" placeholder="请输入会员昵称" disabled ></a-input>
             </a-form-model-item>
           </a-col>
         </a-row>
