@@ -2,4 +2,5 @@ spring:
   application:
     name: eth_hub
   profiles:
-    active: @profile.name@
+    #active: @profile.name@
+    active: dev

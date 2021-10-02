@@ -20,7 +20,7 @@ public interface EthermineApi {
     /// Miner Api
     final String minerDashboard = "/miner/{}/dashboard";
     final String minerHistory = "/miner/{}/history";
-    final String minerPayouts = "/miner/{}/payouts";
+    final String minerPayouts = "/miner/{}/dashboard/payouts";
     final String minerRounds = "/miner/{}/rounds";
     final String minerSettings = "/miner/{}/settings";
     final String minerCurrentStats = "/miner/{}/currentStats";

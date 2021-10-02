@@ -13,6 +13,7 @@ import org.jeecg.modules.demo.eth_hub.entity.AppMemberWallet;
 import org.jeecg.modules.demo.eth_hub.entity.EtherMiner;
 import org.jeecg.modules.demo.eth_hub.mapper.AppMemberWalletMapper;
 import org.jeecg.modules.demo.eth_hub.service.IAppMemberWalletService;
+import org.jeecg.modules.eth_hub.dao.AppMemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,12 +33,17 @@ public class AppMemberWalletServiceImpl extends ServiceImpl<AppMemberWalletMappe
     @Autowired
     private EtherMinerRepository minerDao;
 
+    @Autowired
+    private AppMemberRepository memberDao;
+
     @Override
     public IPage<AppMemberWallet> page(Page<AppMemberWallet> page, QueryWrapper<AppMemberWallet> queryWrapper) {
         Page<AppMemberWallet> walletPage = getBaseMapper().selectPage(page, queryWrapper);
         walletPage.getRecords().forEach(wallet -> {
             EtherMiner miner = minerDao.findByMemberUsername(wallet.getMemberUsername());
-            wallet.setUnpaid(miner.getUnpaid());
+            AppMember member = memberDao.findByUsername(wallet.getMemberUsername());
+
+            wallet.setUnpaid(miner.getUnpaid().multiply(BigDecimal.ONE.subtract(member.getChargeRate())));
         });
         return walletPage;
     }
@@ -58,5 +64,11 @@ public class AppMemberWalletServiceImpl extends ServiceImpl<AppMemberWalletMappe
         wallet.setBalance(BigDecimal.ZERO);
         wallet.setTotalEarnings(BigDecimal.ZERO);
         save(wallet);
+    }
+
+    @Override
+    public void income(AppMember member, String currency, BigDecimal amount) {
+
+        baseMapper.income(member.getId(), currency, amount);
     }
 }

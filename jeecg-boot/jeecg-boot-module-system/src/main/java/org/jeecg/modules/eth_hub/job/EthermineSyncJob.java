@@ -32,6 +32,8 @@ public class EthermineSyncJob implements Job {
         List<EtherMiner> miners = minerService.list();
         miners.forEach(miner -> {
             persistService.persistMiner(miner);
+            
+            persistService.persistPayout(miner);
         });
 
         log.info(" --- {} 任务执行完毕 --- {} ", this.getClass().getName(), DateUtils.now());

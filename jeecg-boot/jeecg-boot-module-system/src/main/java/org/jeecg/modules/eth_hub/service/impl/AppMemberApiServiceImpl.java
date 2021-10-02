@@ -21,6 +21,8 @@ import org.jeecg.modules.eth_hub.service.AppMemberApiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+
 @Service
 public class AppMemberApiServiceImpl implements AppMemberApiService {
     @Autowired
@@ -98,7 +100,7 @@ public class AppMemberApiServiceImpl implements AppMemberApiService {
     }
 
     @Override
-    public AppMemberMiningData mingData(String username) {
+    public AppMemberMiningData miningData(String username) {
         AppMember member = dao.findByUsername(username);
         if (BeanUtil.isEmpty(member)) {
             throw new JeecgBootException("用户不存在");
@@ -111,13 +113,14 @@ public class AppMemberApiServiceImpl implements AppMemberApiService {
 
         EtherMiner miner = minerDao.findByMemberUsername(username);
         BeanUtil.copyProperties(miner, data);
+        data.setUnpaid(miner.getUnpaid().multiply(BigDecimal.ONE.subtract(member.getChargeRate())));
 
         AppMemberWallet wallet = walletDao.findByMemberUsernameAndCurrency(username, "ETH");
         data.setBalance(wallet.getBalance());
         data.setTotalEarnings(wallet.getTotalEarnings());
 
         //TODO 会员矿机总数
-        data.setWorkers(50);
+        data.setWorkers(30);
 
         return data;
     }

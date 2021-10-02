@@ -18,7 +18,7 @@ management:
     web:
       exposure:
         include: metrics,httptrace
-        
+
 spring:
   servlet:
     multipart:
@@ -68,7 +68,7 @@ spring:
   jpa:
     open-in-view: false
     # 显示sql
-    show-sql: true
+    show-sql: false
     # 自动生成表结构
     hibernate:
       ddl-auto: update

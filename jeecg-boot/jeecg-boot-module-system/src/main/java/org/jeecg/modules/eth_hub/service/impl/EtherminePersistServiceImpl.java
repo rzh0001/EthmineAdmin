@@ -4,10 +4,14 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.date.LocalDateTimeUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.jeecg.modules.demo.eth_hub.dao.EtherPayoutRepository;
 import org.jeecg.modules.demo.eth_hub.entity.EtherMiner;
+import org.jeecg.modules.demo.eth_hub.entity.EtherPayout;
 import org.jeecg.modules.demo.eth_hub.service.IEtherMinerService;
+import org.jeecg.modules.demo.eth_hub.service.IEtherPayoutService;
 import org.jeecg.modules.eth_hub.entity.EtherWorker;
 import org.jeecg.modules.eth_hub.entity.MinerDashboard;
+import org.jeecg.modules.eth_hub.entity.Payout;
 import org.jeecg.modules.eth_hub.service.EthermineApi;
 import org.jeecg.modules.eth_hub.service.EtherminePersistService;
 import org.jeecg.modules.eth_hub.service.IEtherWorkerService;
@@ -45,7 +49,7 @@ public class EtherminePersistServiceImpl implements EtherminePersistService {
         log.info("unpaid: {}", current.getUnpaid());
 
         BeanUtil.copyProperties(current, miner);
-        miner.setUnpaid(BigDecimal.valueOf(current.getUnpaid()).divide(new BigDecimal("1000000000000000000")));
+        miner.setUnpaid(new BigDecimal(current.getUnpaid()).divide(new BigDecimal("1000000000000000000")));
         miner.setCurrentHashrate(current.getCurrentHashrate() / 1000000);
         miner.setReportedHashrate(Double.valueOf(current.getReportedHashrate() / 1000000));
         miner.setTime(Timestamp.valueOf(LocalDateTimeUtil.of(Long.valueOf(current.getTime()) * 1000)));
@@ -76,6 +80,53 @@ public class EtherminePersistServiceImpl implements EtherminePersistService {
     @Override
     public void persistWorker(EtherMiner miner) {
 
+    }
+
+    @Autowired
+    private EtherPayoutRepository payoutDao;
+
+    @Autowired
+    private IEtherPayoutService payoutService;
+
+    @Override
+    public void persistPayout(EtherMiner miner) {
+        log.info("persist miner payout start [{}]:[{}]", miner.getMinerName(), miner.getMinerAddress());
+        Payout data = api.minerPayouts(miner.getMinerAddress());
+
+
+        List<EtherPayout> list = new ArrayList<>();
+        List<Payout.DataDTO.PayoutsDTO> payouts = data.getData().getPayouts();
+        for (Payout.DataDTO.PayoutsDTO unit : payouts) {
+            log.info("data = {}", unit.getAmount());
+            // check
+            String payoutNo = miner.getMemberUsername() + "-" + unit.getTxHash() + "-" + unit.getPaidOn();
+            EtherPayout byPayoutNo = payoutDao.findByPayoutNo(payoutNo);
+
+//            if (BeanUtil.isNotEmpty(byPayoutNo)) {
+//                log.info("该记录已存储，跳过[{}]", payoutNo);
+//                continue;
+//            }
+
+            EtherPayout payout = new EtherPayout();
+            BeanUtil.copyProperties(unit, payout);
+            payout.setMinerId(miner.getId());
+            payout.setMinerName(miner.getMinerName());
+            payout.setMinerAddress(miner.getMinerAddress());
+            payout.setPayoutNo(payoutNo);
+            payout.setAmount(new BigDecimal(unit.getAmount()).divide(new BigDecimal("1000000000000000000")));
+            if (unit.getTxCost() != null) {
+                payout.setTxCost(BigDecimal.valueOf(unit.getTxCost()).divide(new BigDecimal("1000000000000000000")));
+            }
+            payout.setPaidOn(Timestamp.valueOf(LocalDateTimeUtil.of(Long.valueOf(unit.getPaidOn()) * 1000)));
+            payout.setSettleStatus(0);
+            log.info("payout = {}", payout.getAmount());
+
+            list.add(payout);
+
+        }
+
+        payoutService.saveOrUpdateBatch(list);
+        log.info("persist miner payout end [{}]:[{}]", miner.getMinerName(), miner.getMinerAddress());
     }
 
     public static void main(String[] args) {

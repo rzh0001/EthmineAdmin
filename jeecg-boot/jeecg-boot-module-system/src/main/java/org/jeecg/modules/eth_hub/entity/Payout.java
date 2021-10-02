@@ -8,6 +8,7 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 public class Payout {
+
     private String status;
     private DataDTO data;
 
@@ -15,10 +16,17 @@ public class Payout {
     @Data
     public static class DataDTO {
         private List<RoundsDTO> rounds;
-        private List<?> payouts;
-        private String miningStart;
-        private Object pendingPayout;
+        private List<PayoutsDTO> payouts;
+        private Object miningStart;
+        private PendingPayoutDTO pendingPayout;
         private EstimatesDTO estimates;
+
+        @NoArgsConstructor
+        @Data
+        public static class PendingPayoutDTO {
+            private Integer gasPrice;
+            private String time;
+        }
 
         @NoArgsConstructor
         @Data
@@ -34,6 +42,17 @@ public class Payout {
         public static class RoundsDTO {
             private Integer block;
             private Long amount;
+        }
+
+        @NoArgsConstructor
+        @Data
+        public static class PayoutsDTO {
+            private Integer start;
+            private Integer end;
+            private String amount;
+            private String txHash;
+            private Long txCost;
+            private Integer paidOn;
         }
     }
 }

@@ -33,7 +33,7 @@ public class MinerDashboard {
             private Integer invalidShares;
             private Integer staleShares;
             private Integer activeWorkers;
-            private Long unpaid;
+            private String unpaid;
         }
 
         /**

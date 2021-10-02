@@ -7,6 +7,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import org.jeecg.modules.demo.eth_hub.entity.AppMember;
 import org.jeecg.modules.demo.eth_hub.entity.AppMemberWallet;
 
+import java.math.BigDecimal;
+
 /**
  * @Description: app_member_wallet
  * @Author: jeecg-boot
@@ -18,5 +20,8 @@ public interface IAppMemberWalletService extends IService<AppMemberWallet> {
     IPage<AppMemberWallet> page(Page<AppMemberWallet> page, QueryWrapper<AppMemberWallet> queryWrapper);
 
     void newWallet(AppMember member, String currency);
+
+
+    void income(AppMember member, String currency, BigDecimal amount);
 
 }

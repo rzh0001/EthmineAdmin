@@ -65,12 +65,12 @@ public class AppMemberController extends JeecgController<AppMember, IAppMemberSe
     @ApiOperation(value = "app_member-添加", notes = "app_member-添加")
     @PostMapping(value = "/add")
     public Result<?> add(@RequestBody AppMember appMember) {
-        if (appMember.getStatus() != 0) {
-            //激活时必须设置手续费率
-            if (appMember.getChargeRate() == null) {
-                return Result.error("激活时必须设置手续费率");
-            }
-        }
+//        if (appMember.getStatus() != 0) {
+//            //激活时必须设置手续费率
+//            if (appMember.getChargeRate() == null) {
+//                return Result.error("激活时必须设置手续费率");
+//            }
+//        }
         appMemberService.save(appMember);
         return Result.OK("添加成功！");
     }
@@ -88,9 +88,15 @@ public class AppMemberController extends JeecgController<AppMember, IAppMemberSe
 
         AppMember check = appMemberService.getById(appMember.getId());
 
-        // 修改会员状态，进行特殊处理
-        if (!check.getStatus().equals(appMember.getStatus())) {
-
+        if (check.getStatus() == null && appMember.getStatus() == 1) {
+            //激活时必须设置手续费率
+            if (appMember.getChargeRate() == null) {
+                return Result.error("激活时必须设置手续费率");
+            }
+            // 激活钱包
+            appMemberService.activeMemberWallet(appMember);
+        } else if (!check.getStatus().equals(appMember.getStatus())) {
+            // 修改会员状态，进行特殊处理
             if (appMember.getStatus() == 1) {
                 //激活时必须设置手续费率
                 if (appMember.getChargeRate() == null) {

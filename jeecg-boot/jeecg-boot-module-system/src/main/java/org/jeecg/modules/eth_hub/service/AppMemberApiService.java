@@ -11,5 +11,5 @@ public interface AppMemberApiService {
 
     void logout(AppUser user);
 
-    AppMemberMiningData mingData(String username);
+    AppMemberMiningData miningData(String username);
 }

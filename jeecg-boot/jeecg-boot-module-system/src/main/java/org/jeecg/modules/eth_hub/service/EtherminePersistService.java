@@ -7,4 +7,6 @@ public interface EtherminePersistService {
     void persistMiner(EtherMiner miner);
 
     void persistWorker(EtherMiner miner);
+
+    void persistPayout(EtherMiner miner);
 }

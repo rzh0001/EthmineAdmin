@@ -39,7 +39,7 @@ public class AppMemberApiController {
 
     @GetMapping(value = "/miningData/{username}")
     public Result<?> miningDate(@PathVariable String username) {
-        AppMemberMiningData data = api.mingData(username);
+        AppMemberMiningData data = api.miningData(username);
         return Result.OK(data);
 
     }
