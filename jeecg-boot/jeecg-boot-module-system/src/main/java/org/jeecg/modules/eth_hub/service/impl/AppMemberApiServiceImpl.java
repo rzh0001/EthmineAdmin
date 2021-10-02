@@ -22,6 +22,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 
 @Service
 public class AppMemberApiServiceImpl implements AppMemberApiService {
@@ -111,16 +113,18 @@ public class AppMemberApiServiceImpl implements AppMemberApiService {
 
         AppMemberMiningData data = new AppMemberMiningData();
 
+        DecimalFormat format = new DecimalFormat("0.00000");
+
         EtherMiner miner = minerDao.findByMemberUsername(username);
         BeanUtil.copyProperties(miner, data);
-        data.setUnpaid(miner.getUnpaid().multiply(BigDecimal.ONE.subtract(member.getChargeRate())));
+        data.setUnpaid(miner.getUnpaid().multiply(BigDecimal.ONE.subtract(member.getChargeRate())).setScale(5, RoundingMode.DOWN));
 
         AppMemberWallet wallet = walletDao.findByMemberUsernameAndCurrency(username, "ETH");
-        data.setBalance(wallet.getBalance());
-        data.setTotalEarnings(wallet.getTotalEarnings());
+        data.setBalance(wallet.getBalance().setScale(5, RoundingMode.DOWN));
+        data.setTotalEarnings(wallet.getTotalEarnings().setScale(5, RoundingMode.DOWN));
 
         //TODO 会员矿机总数
-        data.setWorkers(30);
+        data.setWorkers(data.getActiveWorkers());
 
         return data;
     }
