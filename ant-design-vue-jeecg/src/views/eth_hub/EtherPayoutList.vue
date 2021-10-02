@@ -160,30 +160,12 @@
           {
             title:'转账时间',
             align:"center",
-            dataIndex: 'paidOn',
-            customRender:function (text) {
-              return !text?"":(text.length>10?text.substr(0,10):text)
-            }
+            dataIndex: 'paidOn'
           },
           {
             title:'交易费用',
             align:"center",
             dataIndex: 'txCost'
-          },
-          {
-            title:'交易Hash',
-            align:"center",
-            dataIndex: 'txHash'
-          },
-          {
-            title:'From Block',
-            align:"center",
-            dataIndex: 'start'
-          },
-          {
-            title:'To Block',
-            align:"center",
-            dataIndex: 'end'
           },
           {
             title:'结算状态',
@@ -232,7 +214,7 @@
         fieldList.push({type:'string',value:'minerName',text:'账户别名',dictCode:''})
         fieldList.push({type:'string',value:'minerAddress',text:'ETH地址',dictCode:''})
         fieldList.push({type:'BigDecimal',value:'amount',text:'金额',dictCode:''})
-        fieldList.push({type:'date',value:'paidOn',text:'转账时间'})
+        fieldList.push({type:'datetime',value:'paidOn',text:'转账时间'})
         fieldList.push({type:'BigDecimal',value:'txCost',text:'交易费用',dictCode:''})
         fieldList.push({type:'string',value:'txHash',text:'交易Hash',dictCode:''})
         fieldList.push({type:'int',value:'start',text:'From Block',dictCode:''})

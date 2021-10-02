@@ -99,13 +99,13 @@ public class EtherminePersistServiceImpl implements EtherminePersistService {
         for (Payout.DataDTO.PayoutsDTO unit : payouts) {
             log.info("data = {}", unit.getAmount());
             // check
-            String payoutNo = miner.getMemberUsername() + "-" + unit.getTxHash() + "-" + unit.getPaidOn();
+            String payoutNo = miner.getId() + "-" + unit.getTxHash() + "-" + unit.getPaidOn();
             EtherPayout byPayoutNo = payoutDao.findByPayoutNo(payoutNo);
 
-//            if (BeanUtil.isNotEmpty(byPayoutNo)) {
-//                log.info("该记录已存储，跳过[{}]", payoutNo);
-//                continue;
-//            }
+            if (BeanUtil.isNotEmpty(byPayoutNo)) {
+                log.info("该记录已存储，跳过[{}]", payoutNo);
+                continue;
+            }
 
             EtherPayout payout = new EtherPayout();
             BeanUtil.copyProperties(unit, payout);

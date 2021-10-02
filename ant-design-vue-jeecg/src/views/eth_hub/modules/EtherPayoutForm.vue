@@ -20,7 +20,7 @@
           </a-col>
           <a-col :span="24">
             <a-form-model-item label="转账时间" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="paidOn">
-              <j-date placeholder="请选择转账时间" v-model="model.paidOn"  style="width: 100%" disabled/>
+              <j-date placeholder="请选择转账时间"  v-model="model.paidOn" :show-time="true" date-format="YYYY-MM-DD HH:mm:ss" style="width: 100%" disabled/>
             </a-form-model-item>
           </a-col>
           <a-col :span="24">

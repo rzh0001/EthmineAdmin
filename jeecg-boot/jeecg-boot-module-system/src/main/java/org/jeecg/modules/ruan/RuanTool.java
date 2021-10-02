@@ -26,7 +26,7 @@ public class RuanTool {
     public static String httpGet(String url) {
         log.info("http get: {}", url);
         String res = HttpUtil.get(url);
-        log.info("http response: {}", res);
+//        log.info("http response: {}", res);
         return HttpUtil.get(url);
     }
 
