@@ -59,6 +59,8 @@
     data () {
       return {
         model:{
+            status:1,
+            chargeRate:0.05,
          },
         labelCol: {
           xs: { span: 24 },
@@ -72,6 +74,10 @@
         validatorRules: {
            username: [
               { required: true, message: '请输入用户名!'},
+              { pattern: /^.{6,16}$/, message: '请输入6到16位任意字符!'},
+           ],
+           nickname: [
+              { required: true, message: '请输入昵称!'},
            ],
         },
         url: {
