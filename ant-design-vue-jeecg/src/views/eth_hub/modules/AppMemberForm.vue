@@ -24,13 +24,13 @@
             </a-form-model-item>
           </a-col>
           <a-col :span="24">
-            <a-form-model-item label="账户状态" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="status">
-              <j-dict-select-tag type="list" v-model="model.status" dictCode="member_status" placeholder="请选择账户状态" />
+            <a-form-model-item label="账户状态" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="status" >
+              <j-dict-select-tag type="list" v-model="model.status" dictCode="member_status" placeholder="请选择账户状态" v-bind:disabled="type"/>
             </a-form-model-item>
           </a-col>
           <a-col :span="24">
             <a-form-model-item label="手续费率" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="chargeRate">
-              <a-input-number v-model="model.chargeRate" placeholder="请输入手续费率" style="width: 100%" />
+              <a-input-number v-model="model.chargeRate" placeholder="请输入手续费率" style="width: 100%" v-bind:disabled="type"/>
             </a-form-model-item>
           </a-col>
         </a-row>
@@ -59,8 +59,7 @@
     data () {
       return {
         model:{
-            status:1,
-            chargeRate:0.05,
+            status:0,
          },
         labelCol: {
           xs: { span: 24 },
@@ -84,7 +83,8 @@
           add: "/eth_hub/appMember/add",
           edit: "/eth_hub/appMember/edit",
           queryById: "/eth_hub/appMember/queryById"
-        }
+        },
+        type: false,
       }
     },
     computed: {
@@ -98,6 +98,7 @@
     },
     methods: {
       add () {
+        this.type = true;
         this.edit(this.modelDefault);
       },
       edit (record) {
