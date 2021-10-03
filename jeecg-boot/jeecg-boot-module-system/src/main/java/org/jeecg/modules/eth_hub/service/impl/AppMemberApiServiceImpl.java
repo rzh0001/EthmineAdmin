@@ -23,7 +23,6 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.DecimalFormat;
 
 @Service
 public class AppMemberApiServiceImpl implements AppMemberApiService {
@@ -113,8 +112,6 @@ public class AppMemberApiServiceImpl implements AppMemberApiService {
 
         AppMemberMiningData data = new AppMemberMiningData();
 
-        DecimalFormat format = new DecimalFormat("0.00000");
-
         EtherMiner miner = minerDao.findByMemberUsername(username);
         BeanUtil.copyProperties(miner, data);
         data.setUnpaid(miner.getUnpaid().multiply(BigDecimal.ONE.subtract(member.getChargeRate())).setScale(5, RoundingMode.DOWN));
@@ -123,8 +120,14 @@ public class AppMemberApiServiceImpl implements AppMemberApiService {
         data.setBalance(wallet.getBalance().setScale(5, RoundingMode.DOWN));
         data.setTotalEarnings(wallet.getTotalEarnings().setScale(5, RoundingMode.DOWN));
 
+
+        data.setCurrentHashrate(miner.getCurrentHashrate() / 1000);
+        data.setReportedHashrate(miner.getReportedHashrate() / 1000);
+
         //TODO 会员矿机总数
         data.setWorkers(data.getActiveWorkers());
+        data.setInactiveWorkers(0);
+
 
         return data;
     }

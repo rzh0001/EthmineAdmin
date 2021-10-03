@@ -14,11 +14,17 @@ public class AppMemberMiningData {
      */
     @ApiModelProperty(value = "活跃矿机")
     private java.lang.Integer activeWorkers;
+
+    @ApiModelProperty(value = "活跃矿机")
+    private java.lang.Integer inactiveWorkers;
+
+    @ApiModelProperty(value = "总矿机数")
+    private Integer workers;
     /**
      * 报告算力
      */
     @ApiModelProperty(value = "报告算力")
-    private java.lang.Integer reportedHashrate;
+    private java.lang.Double reportedHashrate;
     /**
      * 当前算力
      */
@@ -38,7 +44,7 @@ public class AppMemberMiningData {
     @ApiModelProperty(value = "延迟份额")
     private Integer staleShares;
 
-    @ApiModelProperty(value = "余额")
+    @ApiModelProperty(value = "钱包余额")
     private java.math.BigDecimal balance;
     /**
      * 总收益
@@ -51,6 +57,5 @@ public class AppMemberMiningData {
     @ApiModelProperty(value = "待入账")
     private java.math.BigDecimal unpaid;
 
-    @ApiModelProperty(value = "总矿机数")
-    private Integer workers;
+
 }
