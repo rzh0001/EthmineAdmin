@@ -121,8 +121,9 @@ public class AppMemberApiServiceImpl implements AppMemberApiService {
         data.setTotalEarnings(wallet.getTotalEarnings().setScale(5, RoundingMode.DOWN));
 
 
-        data.setCurrentHashrate(miner.getCurrentHashrate() / 1000);
-        data.setReportedHashrate(miner.getReportedHashrate() / 1000);
+        // 算力统一打折
+        data.setCurrentHashrate(new BigDecimal(miner.getCurrentHashrate() / 1000 * 0.975).setScale(2, RoundingMode.DOWN).doubleValue());
+        data.setReportedHashrate(new BigDecimal(miner.getReportedHashrate() / 1000 * 0.975).setScale(2, RoundingMode.DOWN).doubleValue());
 
         //TODO 会员矿机总数
         data.setWorkers(data.getActiveWorkers());
