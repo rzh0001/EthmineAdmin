@@ -9,6 +9,11 @@
             </a-form-model-item>
           </a-col>
           <a-col :span="24">
+            <a-form-model-item label="会员昵称" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="memberNickname">
+              <a-input v-model="model.memberNickname" placeholder="请输入会员昵称" disabled ></a-input>
+            </a-form-model-item>
+          </a-col>
+          <a-col :span="24">
             <a-form-model-item label="币种" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="currency">
               <a-input v-model="model.currency" placeholder="请输入币种" disabled ></a-input>
             </a-form-model-item>
@@ -26,11 +31,6 @@
           <a-col :span="24">
             <a-form-model-item label="待入账" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="unpaid">
               <a-input-number v-model="model.unpaid" placeholder="请输入待入账" style="width: 100%" disabled/>
-            </a-form-model-item>
-          </a-col>
-          <a-col :span="24">
-            <a-form-model-item label="会员昵称" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="memberNickname">
-              <a-input v-model="model.memberNickname" placeholder="请输入会员昵称" disabled ></a-input>
             </a-form-model-item>
           </a-col>
         </a-row>

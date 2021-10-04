@@ -166,7 +166,6 @@
             align:"center",
             dataIndex: 'unpaid'
           },
-
           {
             title: '操作',
             dataIndex: 'action',
@@ -202,11 +201,11 @@
       getSuperFieldList(){
         let fieldList=[];
         fieldList.push({type:'string',value:'memberUsername',text:'会员账户',dictCode:''})
+        fieldList.push({type:'string',value:'memberNickname',text:'会员昵称',dictCode:''})
         fieldList.push({type:'string',value:'currency',text:'币种',dictCode:''})
         fieldList.push({type:'BigDecimal',value:'balance',text:'余额',dictCode:''})
         fieldList.push({type:'BigDecimal',value:'totalEarnings',text:'总收益',dictCode:''})
         fieldList.push({type:'BigDecimal',value:'unpaid',text:'待入账',dictCode:''})
-        fieldList.push({type:'string',value:'memberNickname',text:'会员昵称',dictCode:''})
         this.superFieldList = fieldList
       }
     }
