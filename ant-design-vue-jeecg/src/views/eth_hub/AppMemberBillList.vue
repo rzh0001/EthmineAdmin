@@ -10,10 +10,17 @@
             </a-form-item>
           </a-col>
           <a-col :xl="6" :lg="7" :md="8" :sm="24">
-            <a-form-item label="账单类型">
-              <a-input placeholder="请输入账单类型" v-model="queryParam.type"></a-input>
+            <a-form-item label="会员昵称">
+              <a-input placeholder="请输入会员昵称" v-model="queryParam.memberNickname"></a-input>
             </a-form-item>
           </a-col>
+          <template v-if="toggleSearchStatus">
+            <a-col :xl="6" :lg="7" :md="8" :sm="24">
+              <a-form-item label="账单类型">
+                <j-dict-select-tag placeholder="请选择账单类型" v-model="queryParam.type" dictCode="bill_type"/>
+              </a-form-item>
+            </a-col>
+          </template>
           <a-col :xl="6" :lg="7" :md="8" :sm="24">
             <span style="float: left;overflow: hidden;" class="table-page-search-submitButtons">
               <a-button type="primary" @click="searchQuery" icon="search">查询</a-button>
@@ -119,6 +126,7 @@
   import { mixinDevice } from '@/utils/mixin'
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
   import AppMemberBillModal from './modules/AppMemberBillModal'
+  import {filterMultiDictText} from '@/components/dict/JDictSelectUtil'
 
   export default {
     name: 'AppMemberBillList',
@@ -142,14 +150,14 @@
             }
           },
           {
-            title:'会员ID',
-            align:"center",
-            dataIndex: 'memberId'
-          },
-          {
             title:'会员账户',
             align:"center",
             dataIndex: 'memberUsername'
+          },
+          {
+            title:'会员昵称',
+            align:"center",
+            dataIndex: 'memberNickname'
           },
           {
             title:'币种',
@@ -159,7 +167,7 @@
           {
             title:'账单类型',
             align:"center",
-            dataIndex: 'type'
+            dataIndex: 'type_dictText'
           },
           {
             title:'账单金额',
@@ -190,11 +198,6 @@
             title:'结算日',
             align:"center",
             dataIndex: 'settleDate'
-          },
-          {
-            title:'删除标志',
-            align:"center",
-            dataIndex: 'delFlag'
           },
           {
             title: '操作',
@@ -230,17 +233,16 @@
       },
       getSuperFieldList(){
         let fieldList=[];
-        fieldList.push({type:'string',value:'memberId',text:'会员ID',dictCode:''})
         fieldList.push({type:'string',value:'memberUsername',text:'会员账户',dictCode:''})
+        fieldList.push({type:'string',value:'memberNickname',text:'会员昵称',dictCode:''})
         fieldList.push({type:'string',value:'currency',text:'币种',dictCode:''})
-        fieldList.push({type:'string',value:'type',text:'账单类型',dictCode:''})
+        fieldList.push({type:'string',value:'type',text:'账单类型',dictCode:'bill_type'})
         fieldList.push({type:'BigDecimal',value:'amount',text:'账单金额',dictCode:''})
         fieldList.push({type:'BigDecimal',value:'balance',text:'钱包余额',dictCode:''})
         fieldList.push({type:'BigDecimal',value:'charge',text:'手续费',dictCode:''})
         fieldList.push({type:'string',value:'detail',text:'账单详情',dictCode:''})
         fieldList.push({type:'string',value:'detailId',text:'详情关联',dictCode:''})
         fieldList.push({type:'string',value:'settleDate',text:'结算日',dictCode:''})
-        fieldList.push({type:'int',value:'delFlag',text:'删除标志',dictCode:''})
         this.superFieldList = fieldList
       }
     }

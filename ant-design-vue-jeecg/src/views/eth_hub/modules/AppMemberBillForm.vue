@@ -4,13 +4,13 @@
       <a-form-model ref="form" :model="model" :rules="validatorRules" slot="detail">
         <a-row>
           <a-col :span="24">
-            <a-form-model-item label="会员ID" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="memberId">
-              <a-input v-model="model.memberId" placeholder="请输入会员ID"  ></a-input>
+            <a-form-model-item label="会员账户" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="memberUsername">
+              <a-input v-model="model.memberUsername" placeholder="请输入会员账户"  ></a-input>
             </a-form-model-item>
           </a-col>
           <a-col :span="24">
-            <a-form-model-item label="会员账户" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="memberUsername">
-              <a-input v-model="model.memberUsername" placeholder="请输入会员账户"  ></a-input>
+            <a-form-model-item label="会员昵称" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="memberNickname">
+              <a-input v-model="model.memberNickname" placeholder="请输入会员昵称"  ></a-input>
             </a-form-model-item>
           </a-col>
           <a-col :span="24">
@@ -20,7 +20,7 @@
           </a-col>
           <a-col :span="24">
             <a-form-model-item label="账单类型" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="type">
-              <a-input v-model="model.type" placeholder="请输入账单类型"  ></a-input>
+              <j-dict-select-tag type="list" v-model="model.type" dictCode="bill_type" placeholder="请选择账单类型" />
             </a-form-model-item>
           </a-col>
           <a-col :span="24">
@@ -80,6 +80,9 @@
         },
         confirmLoading: false,
         validatorRules: {
+           type: [
+              { required: true, message: '请输入账单类型!'},
+           ],
         },
         url: {
           add: "/eth_hub/appMemberBill/add",

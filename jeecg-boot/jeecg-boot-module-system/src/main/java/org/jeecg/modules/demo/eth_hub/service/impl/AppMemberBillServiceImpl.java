@@ -50,6 +50,7 @@ public class AppMemberBillServiceImpl extends ServiceImpl<AppMemberBillMapper, A
         bill.setDetail(RuanTool.concat("结算{}的入账", payout.getPaidOn()));
         bill.setMemberId(member.getId());
         bill.setMemberUsername(member.getUsername());
+        bill.setMemberNickname(member.getNickname());
         bill.setSettleDate(DateUtil.today());
 
         save(bill);

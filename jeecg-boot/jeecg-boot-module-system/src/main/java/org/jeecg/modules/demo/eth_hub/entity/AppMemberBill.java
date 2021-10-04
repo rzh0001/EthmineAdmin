@@ -16,13 +16,15 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 /**
  * @Description: app_member_bill
  * @Author: jeecg-boot
- * @Date:   2021-09-29
  * @Version: V1.0
  */
+@Entity
 @Data
 @TableName("app_member_bill")
 @Accessors(chain = true)
@@ -32,6 +34,7 @@ public class AppMemberBill implements Serializable {
     private static final long serialVersionUID = 1L;
 
 	/**账单ID*/
+	@Id
 	@TableId(type = IdType.ASSIGN_ID)
     @ApiModelProperty(value = "账单ID")
     private java.lang.String id;
@@ -43,12 +46,17 @@ public class AppMemberBill implements Serializable {
 	@Excel(name = "会员账户", width = 15)
     @ApiModelProperty(value = "会员账户")
     private java.lang.String memberUsername;
+	/**会员昵称*/
+	@Excel(name = "会员昵称", width = 15)
+    @ApiModelProperty(value = "会员昵称")
+    private java.lang.String memberNickname;
 	/**币种*/
 	@Excel(name = "币种", width = 15)
     @ApiModelProperty(value = "币种")
     private java.lang.String currency;
 	/**账单类型*/
-	@Excel(name = "账单类型", width = 15)
+	@Excel(name = "账单类型", width = 15, dicCode = "bill_type")
+	@Dict(dicCode = "bill_type")
     @ApiModelProperty(value = "账单类型")
     private java.lang.String type;
 	/**账单金额*/

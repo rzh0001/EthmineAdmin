@@ -39,7 +39,6 @@ import org.jeecg.common.aspect.annotation.AutoLog;
  /**
  * @Description: app_member_bill
  * @Author: jeecg-boot
- * @Date:   2021-09-29
  * @Version: V1.0
  */
 @Api(tags="app_member_bill")
