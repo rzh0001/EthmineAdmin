@@ -32,7 +32,7 @@ public class RuanTool {
 
     public static String httpGet(String url) {
         log.info("http get: {}", url);
-        String res = HttpUtil.get(url);
+        String res = HttpUtil.get(url, 40000);
 //        log.info("http response: {}", res);
         return HttpUtil.get(url);
     }
