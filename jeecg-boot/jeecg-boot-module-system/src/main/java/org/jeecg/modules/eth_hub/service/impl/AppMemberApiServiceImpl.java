@@ -15,6 +15,7 @@ import org.jeecg.modules.demo.eth_hub.entity.EtherMiner;
 import org.jeecg.modules.demo.eth_hub.service.IAppMemberService;
 import org.jeecg.modules.demo.eth_hub.service.IAppMemberWalletService;
 import org.jeecg.modules.eth_hub.dao.AppMemberRepository;
+import org.jeecg.modules.eth_hub.dao.EtherWorkerRepository;
 import org.jeecg.modules.eth_hub.entity.AppMemberMiningData;
 import org.jeecg.modules.eth_hub.entity.AppUser;
 import org.jeecg.modules.eth_hub.service.AppMemberApiService;
@@ -44,6 +45,9 @@ public class AppMemberApiServiceImpl implements AppMemberApiService {
 
     @Autowired
     private IAppMemberWalletService walletService;
+
+    @Autowired
+    private EtherWorkerRepository workerDao;
 
 
     @Override
@@ -126,10 +130,13 @@ public class AppMemberApiServiceImpl implements AppMemberApiService {
         data.setReportedHashrate(new BigDecimal(miner.getReportedHashrate() / 1000 * 0.975).setScale(2, RoundingMode.DOWN).doubleValue());
 
         //TODO 会员矿机总数
-        data.setWorkers(data.getActiveWorkers());
-        data.setInactiveWorkers(0);
+        Integer workers = workerDao.countAllByMinerId(miner.getId());
+        Integer activeWorkers = workerDao.countByMinerIdAndOnlineStatus(miner.getId(), 1);
 
-
+        data.setWorkers(workers);
+        data.setActiveWorkers(activeWorkers); // 接口返回的在线矿机数是错误的
+        data.setInactiveWorkers(workers - activeWorkers);
+        
         return data;
     }
 

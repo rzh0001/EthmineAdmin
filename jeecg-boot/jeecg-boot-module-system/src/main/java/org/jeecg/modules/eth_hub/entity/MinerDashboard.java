@@ -27,7 +27,7 @@ public class MinerDashboard {
         public static class CurrentStatisticsDTO {
             private Integer time;
             private Integer lastSeen;
-            private Long reportedHashrate;
+            private Double reportedHashrate;
             private Double currentHashrate;
             private Integer validShares;
             private Integer invalidShares;
