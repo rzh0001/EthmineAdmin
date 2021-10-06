@@ -3,6 +3,7 @@ package org.jeecg.modules.eth_hub.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.jeecg.common.constant.CommonConstant;
 import org.jeecg.common.exception.JeecgBootException;
 import org.jeecg.common.system.util.JwtUtil;
@@ -10,10 +11,8 @@ import org.jeecg.common.util.RedisUtil;
 import org.jeecg.modules.demo.eth_hub.dao.AppMemberBillRepository;
 import org.jeecg.modules.demo.eth_hub.dao.AppMemberWalletRepository;
 import org.jeecg.modules.demo.eth_hub.dao.EtherMinerRepository;
-import org.jeecg.modules.demo.eth_hub.entity.AppMember;
-import org.jeecg.modules.demo.eth_hub.entity.AppMemberBill;
-import org.jeecg.modules.demo.eth_hub.entity.AppMemberWallet;
-import org.jeecg.modules.demo.eth_hub.entity.EtherMiner;
+import org.jeecg.modules.demo.eth_hub.dao.EtherPayoutRepository;
+import org.jeecg.modules.demo.eth_hub.entity.*;
 import org.jeecg.modules.demo.eth_hub.service.IAppMemberService;
 import org.jeecg.modules.demo.eth_hub.service.IAppMemberWalletService;
 import org.jeecg.modules.eth_hub.dao.AppMemberRepository;
@@ -31,7 +30,9 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+@Slf4j
 @Service
 public class AppMemberApiServiceImpl implements AppMemberApiService {
     @Autowired
@@ -58,6 +59,8 @@ public class AppMemberApiServiceImpl implements AppMemberApiService {
 
     @Autowired
     private AppMemberBillRepository billDao;
+    @Autowired
+    private EtherPayoutRepository payoutDao;
 
 
     @Override
@@ -122,7 +125,19 @@ public class AppMemberApiServiceImpl implements AppMemberApiService {
 
         EtherMiner miner = minerDao.findByMemberUsername(username);
         BeanUtil.copyProperties(miner, data);
-        data.setUnpaid(miner.getUnpaid().multiply(BigDecimal.ONE.subtract(member.getChargeRate())).setScale(5, RoundingMode.DOWN));
+
+        // 系统通过定时任务处理账单，矿池支付后待入账金额变成0,在账单结算前，待入账金额应加上为结算账单的金额
+        Optional<List<EtherPayout>> unSettle = payoutDao.findAllBySettleStatusAndMinerId(0, miner.getId());
+        BigDecimal unSettleAmount = BigDecimal.ZERO;
+        unSettle.ifPresent(list -> list.forEach(unit -> unSettleAmount.add(unit.getAmount())));
+
+        // 折扣率
+        BigDecimal rate = BigDecimal.ONE.subtract(member.getChargeRate());
+        // 矿池待入账收益 + 系统未结算收益
+        BigDecimal resultAmount = miner.getUnpaid().add(unSettleAmount);
+        // 会员打折后真实收益
+
+        data.setUnpaid(resultAmount.multiply(rate).setScale(5, RoundingMode.DOWN));
 
         AppMemberWallet wallet = walletDao.findByMemberUsernameAndCurrency(username, "ETH");
         data.setBalance(wallet.getBalance().setScale(5, RoundingMode.DOWN));
@@ -130,8 +145,8 @@ public class AppMemberApiServiceImpl implements AppMemberApiService {
 
 
         // 算力统一打折
-        data.setCurrentHashrate(new BigDecimal(miner.getCurrentHashrate() / 1000 * 0.975).setScale(2, RoundingMode.DOWN).doubleValue());
-        data.setReportedHashrate(new BigDecimal(miner.getReportedHashrate() / 1000 * 0.975).setScale(2, RoundingMode.DOWN).doubleValue());
+        data.setCurrentHashrate(BigDecimal.valueOf(miner.getCurrentHashrate() / 1000 * 0.975).setScale(2, RoundingMode.DOWN).doubleValue());
+        data.setReportedHashrate(BigDecimal.valueOf(miner.getReportedHashrate() / 1000 * 0.975).setScale(2, RoundingMode.DOWN).doubleValue());
 
         //TODO 会员矿机总数
         Integer workers = workerDao.countAllByMinerId(miner.getId());

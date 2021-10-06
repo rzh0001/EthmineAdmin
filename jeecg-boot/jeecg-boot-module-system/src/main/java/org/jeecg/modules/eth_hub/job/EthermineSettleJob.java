@@ -1,6 +1,5 @@
 package org.jeecg.modules.eth_hub.job;
 
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -12,12 +11,14 @@ import org.jeecg.modules.demo.eth_hub.entity.EtherPayout;
 import org.jeecg.modules.demo.eth_hub.service.IAppMemberBillService;
 import org.jeecg.modules.demo.eth_hub.service.IAppMemberService;
 import org.jeecg.modules.demo.eth_hub.service.IEtherMinerService;
+import org.jeecg.modules.demo.eth_hub.service.IEtherPayoutService;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 public class EthermineSettleJob implements Job {
@@ -33,6 +34,9 @@ public class EthermineSettleJob implements Job {
 
     @Autowired
     private IAppMemberBillService billService;
+
+    @Autowired
+    private IEtherPayoutService payoutService;
 
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
@@ -54,23 +58,19 @@ public class EthermineSettleJob implements Job {
                 continue;
             }
 
-            List<EtherPayout> unSettle = payoutDao.findAllBySettleStatusAndMinerId(0, miner.getId());
-            if (BeanUtil.isEmpty(unSettle)) {
+            Optional<List<EtherPayout>> unSettle = payoutDao.findAllBySettleStatusAndMinerId(0, miner.getId());
+            if (!unSettle.isPresent()) {
                 log.info("该用户[{}]无未结算转账！", member.getUsername());
                 continue;
             }
 
-            for (EtherPayout unit : unSettle) {
-
+            for (EtherPayout unit : unSettle.get()) {
                 billService.settleEthermineBill(member, unit);
                 unit.setSettleStatus(2);
                 unit.setSettleTime(DateUtil.date());
-//                payoutDao.save(unit);
             }
 
-            payoutDao.saveAll(unSettle);
-
-
+            payoutService.saveOrUpdateBatch(unSettle.get());
         }
 
         log.info(" --- {} 任务执行完毕 --- {} ", this.getClass().getName(), DateUtils.now());
