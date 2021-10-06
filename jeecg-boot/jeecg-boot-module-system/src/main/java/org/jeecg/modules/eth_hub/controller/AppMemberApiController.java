@@ -2,6 +2,7 @@ package org.jeecg.modules.eth_hub.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.jeecg.common.api.vo.Result;
+import org.jeecg.modules.eth_hub.entity.AppMemberBillData;
 import org.jeecg.modules.eth_hub.entity.AppMemberMiningData;
 import org.jeecg.modules.eth_hub.entity.AppUser;
 import org.jeecg.modules.eth_hub.service.AppMemberApiService;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -40,6 +42,13 @@ public class AppMemberApiController {
     @GetMapping(value = "/miningData/{username}")
     public Result<?> miningDate(@PathVariable String username) {
         AppMemberMiningData data = api.miningData(username);
+        return Result.OK(data);
+
+    }
+
+    @GetMapping(value = "/bill/{username}")
+    public Result<?> bill(@PathVariable String username) {
+        List<AppMemberBillData> data = api.bill(username);
         return Result.OK(data);
 
     }

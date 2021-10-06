@@ -7,23 +7,30 @@ import org.jeecg.common.constant.CommonConstant;
 import org.jeecg.common.exception.JeecgBootException;
 import org.jeecg.common.system.util.JwtUtil;
 import org.jeecg.common.util.RedisUtil;
+import org.jeecg.modules.demo.eth_hub.dao.AppMemberBillRepository;
 import org.jeecg.modules.demo.eth_hub.dao.AppMemberWalletRepository;
 import org.jeecg.modules.demo.eth_hub.dao.EtherMinerRepository;
 import org.jeecg.modules.demo.eth_hub.entity.AppMember;
+import org.jeecg.modules.demo.eth_hub.entity.AppMemberBill;
 import org.jeecg.modules.demo.eth_hub.entity.AppMemberWallet;
 import org.jeecg.modules.demo.eth_hub.entity.EtherMiner;
 import org.jeecg.modules.demo.eth_hub.service.IAppMemberService;
 import org.jeecg.modules.demo.eth_hub.service.IAppMemberWalletService;
 import org.jeecg.modules.eth_hub.dao.AppMemberRepository;
 import org.jeecg.modules.eth_hub.dao.EtherWorkerRepository;
+import org.jeecg.modules.eth_hub.entity.AppMemberBillData;
 import org.jeecg.modules.eth_hub.entity.AppMemberMiningData;
 import org.jeecg.modules.eth_hub.entity.AppUser;
 import org.jeecg.modules.eth_hub.service.AppMemberApiService;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class AppMemberApiServiceImpl implements AppMemberApiService {
@@ -48,6 +55,9 @@ public class AppMemberApiServiceImpl implements AppMemberApiService {
 
     @Autowired
     private EtherWorkerRepository workerDao;
+
+    @Autowired
+    private AppMemberBillRepository billDao;
 
 
     @Override
@@ -106,13 +116,7 @@ public class AppMemberApiServiceImpl implements AppMemberApiService {
 
     @Override
     public AppMemberMiningData miningData(String username) {
-        AppMember member = dao.findByUsername(username);
-        if (BeanUtil.isEmpty(member)) {
-            throw new JeecgBootException("用户不存在");
-        }
-        if (member.getStatus() != 1) {
-            throw new JeecgBootException("用户未激活");
-        }
+        AppMember member = getAppMemberByUsername(username);
 
         AppMemberMiningData data = new AppMemberMiningData();
 
@@ -136,8 +140,35 @@ public class AppMemberApiServiceImpl implements AppMemberApiService {
         data.setWorkers(workers);
         data.setActiveWorkers(activeWorkers); // 接口返回的在线矿机数是错误的
         data.setInactiveWorkers(workers - activeWorkers);
-        
+
         return data;
+    }
+
+    @NotNull
+    private AppMember getAppMemberByUsername(String username) {
+        AppMember member = dao.findByUsername(username);
+        if (BeanUtil.isEmpty(member)) {
+            throw new JeecgBootException("用户不存在");
+        }
+        if (member.getStatus() != 1) {
+            throw new JeecgBootException("用户未激活");
+        }
+        return member;
+    }
+
+    @Override
+    public List<AppMemberBillData> bill(String username) {
+        AppMember member = getAppMemberByUsername(username);
+        Iterable<AppMemberBill> bills = billDao.findAllByMemberIdOrderByCreateTimeDesc(member.getId());
+        List<AppMemberBillData> list = new ArrayList<>();
+        bills.forEach(bill -> {
+            AppMemberBillData data = new AppMemberBillData();
+            BeanUtils.copyProperties(bill, data);
+            data.setAmount(bill.getAmount().setScale(5, RoundingMode.DOWN));
+            data.setBalance(bill.getBalance().setScale(5, RoundingMode.DOWN));
+            list.add(data);
+        });
+        return list;
     }
 
 
