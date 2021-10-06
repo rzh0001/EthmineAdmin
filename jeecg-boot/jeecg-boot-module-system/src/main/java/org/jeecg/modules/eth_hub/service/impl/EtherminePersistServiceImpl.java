@@ -46,6 +46,11 @@ public class EtherminePersistServiceImpl implements EtherminePersistService {
         }
 
         MinerDashboard.DataDTO.CurrentStatisticsDTO current = res.getData().getCurrentStatistics();
+        if (BeanUtil.isEmpty(current)) {
+            log.error("CurrentStatistics 无数据，请检查该地址是否有机器上线？");
+            return;
+        }
+
         log.info("unpaid: {}", current.getUnpaid());
 
         BeanUtil.copyProperties(current, miner);
