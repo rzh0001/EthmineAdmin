@@ -161,7 +161,7 @@
           {
             title:'会员账户',
             align:"center",
-            dataIndex: 'memberUsername_dictText'
+            dataIndex: 'memberUsername'
           },
           {
             title:'会员昵称',
