@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.jeecg.common.exception.JeecgBootException;
+import lombok.extern.slf4j.Slf4j;
 import org.jeecg.modules.demo.eth_hub.dao.AppMemberWalletRepository;
 import org.jeecg.modules.demo.eth_hub.dao.EtherMinerRepository;
 import org.jeecg.modules.demo.eth_hub.entity.AppMember;
@@ -24,6 +24,7 @@ import java.math.BigDecimal;
  * @Author: jeecg-boot
  * @Version: V1.0
  */
+@Slf4j
 @Service
 public class AppMemberWalletServiceImpl extends ServiceImpl<AppMemberWalletMapper, AppMemberWallet> implements IAppMemberWalletService {
 
@@ -57,7 +58,8 @@ public class AppMemberWalletServiceImpl extends ServiceImpl<AppMemberWalletMappe
         // check
         AppMemberWallet check = dao.findByMemberUsernameAndCurrency(member.getUsername(), currency);
         if (BeanUtil.isNotEmpty(check)) {
-            throw new JeecgBootException("该用户已有" + currency + "账户");
+            log.info("该用户已有" + currency + "钱包账户,不再新开钱包");
+            return;
         }
 
         AppMemberWallet wallet = new AppMemberWallet();
