@@ -63,6 +63,10 @@ public class EtherMiner implements Serializable {
 	@Excel(name = "待转账", width = 15)
     @ApiModelProperty(value = "待转账")
     private java.math.BigDecimal unpaid;
+	/**矿机总数*/
+	@Excel(name = "矿机总数", width = 15)
+    @ApiModelProperty(value = "矿机总数")
+    private java.lang.Integer workers;
 	/**活跃矿机*/
 	@Excel(name = "活跃矿机", width = 15)
     @ApiModelProperty(value = "活跃矿机")
@@ -75,6 +79,10 @@ public class EtherMiner implements Serializable {
 	@Excel(name = "当前算力", width = 15)
     @ApiModelProperty(value = "当前算力")
     private java.lang.Double currentHashrate;
+	/**平均算力*/
+	@Excel(name = "平均算力", width = 15)
+    @ApiModelProperty(value = "平均算力")
+    private java.lang.Double averageHashrate;
 	/**有效份额*/
 	@Excel(name = "有效份额", width = 15)
     @ApiModelProperty(value = "有效份额")
@@ -131,4 +139,16 @@ public class EtherMiner implements Serializable {
 	@Excel(name = "delFlag", width = 15)
     @ApiModelProperty(value = "delFlag")
     private java.lang.Integer delFlag;
+	/**每分钟收益(ETH)*/
+	@Excel(name = "每分钟收益(ETH)", width = 15)
+    @ApiModelProperty(value = "每分钟收益(ETH)")
+    private java.lang.Double coinsPerMin;
+	/**每分钟收益(USD)*/
+	@Excel(name = "每分钟收益(USD)", width = 15)
+    @ApiModelProperty(value = "每分钟收益(USD)")
+    private java.lang.Double usdPerMin;
+	/**每分钟收益(BTC)*/
+	@Excel(name = "每分钟收益(BTC)", width = 15)
+    @ApiModelProperty(value = "每分钟收益(BTC)")
+    private java.lang.Double btcPerMin;
 }

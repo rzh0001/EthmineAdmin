@@ -17,7 +17,7 @@
           <template v-if="toggleSearchStatus">
             <a-col :xl="6" :lg="7" :md="8" :sm="24">
               <a-form-item label="会员账户">
-                <j-select-app-member placeholder="请选择会员账户" v-model="queryParam.memberUsername"/>
+                <j-select-user-by-dep placeholder="请选择会员账户" v-model="queryParam.memberUsername"/>
               </a-form-item>
             </a-col>
           </template>
@@ -95,7 +95,7 @@
         </template>
 
         <span slot="action" slot-scope="text, record">
-          <a @click="handleEdit(record)" v-if='columns.memberUsername == null'>编辑</a>
+          <a @click="handleEdit(record)">编辑</a>
 
           <a-divider type="vertical" />
           <a-dropdown>
@@ -126,13 +126,11 @@
   import { mixinDevice } from '@/utils/mixin'
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
   import EtherMinerModal from './modules/EtherMinerModal'
-  import JSelectAppMember from '@comp/jeecgbiz/JSelectAppMember'
 
   export default {
     name: 'EtherMinerList',
     mixins:[JeecgListMixin, mixinDevice],
     components: {
-      JSelectAppMember,
       EtherMinerModal
     },
     data () {
@@ -163,7 +161,7 @@
           {
             title:'会员账户',
             align:"center",
-            dataIndex: 'memberUsername'
+            dataIndex: 'memberUsername_dictText'
           },
           {
             title:'会员昵称',
@@ -174,6 +172,11 @@
             title:'待转账',
             align:"center",
             dataIndex: 'unpaid'
+          },
+          {
+            title:'矿机总数',
+            align:"center",
+            dataIndex: 'workers'
           },
           {
             title:'活跃矿机',
@@ -189,6 +192,11 @@
             title:'当前算力',
             align:"center",
             dataIndex: 'currentHashrate'
+          },
+          {
+            title:'平均算力',
+            align:"center",
+            dataIndex: 'averageHashrate'
           },
           {
             title:'有效份额',
@@ -209,6 +217,11 @@
             title:'最后更新',
             align:"center",
             dataIndex: 'lastSeen'
+          },
+          {
+            title:'每分钟收益(ETH)',
+            align:"center",
+            dataIndex: 'coinsPerMin'
           },
           {
             title: '操作',
@@ -249,13 +262,16 @@
         fieldList.push({type:'sel_user',value:'memberUsername',text:'会员账户'})
         fieldList.push({type:'string',value:'memberNickname',text:'会员昵称',dictCode:''})
         fieldList.push({type:'BigDecimal',value:'unpaid',text:'待转账',dictCode:''})
+        fieldList.push({type:'int',value:'workers',text:'矿机总数',dictCode:''})
         fieldList.push({type:'int',value:'activeWorkers',text:'活跃矿机',dictCode:''})
-        fieldList.push({type:'int',value:'reportedHashrate',text:'报告算力',dictCode:''})
+        fieldList.push({type:'double',value:'reportedHashrate',text:'报告算力',dictCode:''})
         fieldList.push({type:'double',value:'currentHashrate',text:'当前算力',dictCode:''})
+        fieldList.push({type:'double',value:'averageHashrate',text:'平均算力',dictCode:''})
         fieldList.push({type:'int',value:'validShares',text:'有效份额',dictCode:''})
         fieldList.push({type:'int',value:'invalidShares',text:'无效份额',dictCode:''})
         fieldList.push({type:'int',value:'staleShares',text:'延迟份额',dictCode:''})
         fieldList.push({type:'datetime',value:'lastSeen',text:'最后更新'})
+        fieldList.push({type:'double',value:'coinsPerMin',text:'每分钟收益(ETH)',dictCode:''})
         this.superFieldList = fieldList
       }
     }
