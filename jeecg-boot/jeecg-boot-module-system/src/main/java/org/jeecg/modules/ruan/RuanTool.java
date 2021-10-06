@@ -8,6 +8,7 @@ import cn.hutool.http.HttpUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.helpers.MessageFormatter;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -59,6 +60,22 @@ public class RuanTool {
         return dateBetween.between(DateUnit.MINUTE);
     }
 
+    /**
+     * 转化矿池API返回的数量为以枚为单位
+     *
+     * @param amount
+     * @return
+     */
+    public static BigDecimal convertEtherAmount(BigDecimal amount) {
+        return amount.divide(new BigDecimal("1000000000000000000"));
+    }
+
+    /**
+     * 时间格式为小时 "2021-10-05 12"
+     *
+     * @param date
+     * @return
+     */
     public static String dateToHourString(Date date) {
         FastDateFormat instance = FastDateFormat.getInstance("yyyy-MM-dd HH");
         return instance.format(date);
