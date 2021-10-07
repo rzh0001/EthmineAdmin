@@ -56,8 +56,8 @@ public class EtherWorkerServiceImpl extends ServiceImpl<EtherWorkerMapper, Ether
         worker.setInvalidShares(data.getInvalidShares());
 
 
-        // lastSeen 超过30分钟 判断矿机掉线
-        if (RuanTool.betweenDateToMinute(worker.getLastSeen(), DateUtil.date()) > 30) {
+        // lastSeen 超过30分钟 或 ReportedHashrate = 0 判断矿机掉线
+        if (RuanTool.betweenDateToMinute(worker.getLastSeen(), DateUtil.date()) > 30 || data.getReportedHashrate() == 0) {
             worker.setOnlineStatus(0);
         } else {
             worker.setOnlineStatus(1);
