@@ -11,6 +11,8 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
+import java.util.Collection;
 import java.util.Optional;
 
 /**
@@ -39,4 +41,20 @@ public class PlatformConfigServiceImpl extends ServiceImpl<PlatformConfigMapper,
         return super.updateById(entity);
     }
 
+    @Override
+    public boolean removeById(Serializable id) {
+        PlatformConfig config = baseMapper.selectById(id);
+        return remove(config);
+    }
+
+    @CacheEvict(cacheNames = "cacheName", key = "#p0.configKey")
+    public boolean remove(PlatformConfig entity) {
+        return removeById(entity.getId());
+    }
+
+    @CacheEvict(cacheNames = "cacheName", allEntries = true)
+    @Override
+    public boolean removeByIds(Collection<? extends Serializable> idList) {
+        return super.removeByIds(idList);
+    }
 }

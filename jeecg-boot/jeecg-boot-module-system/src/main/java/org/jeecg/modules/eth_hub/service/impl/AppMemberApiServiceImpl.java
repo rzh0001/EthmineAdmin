@@ -141,11 +141,12 @@ public class AppMemberApiServiceImpl implements AppMemberApiService {
         BigDecimal resultAmount = miner.getUnpaid().add(unSettleAmount);
         // 会员打折后真实收益
 
-        data.setUnpaid(resultAmount.multiply(rate).setScale(5, RoundingMode.DOWN));
+        int scale = 4;
+        data.setUnpaid(resultAmount.multiply(rate).setScale(scale, RoundingMode.DOWN));
 
         AppMemberWallet wallet = walletDao.findByMemberUsernameAndCurrency(username, "ETH");
-        data.setBalance(wallet.getBalance().setScale(5, RoundingMode.DOWN));
-        data.setTotalEarnings(wallet.getTotalEarnings().setScale(5, RoundingMode.DOWN));
+        data.setBalance(wallet.getBalance().setScale(scale, RoundingMode.DOWN));
+        data.setTotalEarnings(wallet.getTotalEarnings().setScale(scale, RoundingMode.DOWN));
 
 
         // 算力统一打折

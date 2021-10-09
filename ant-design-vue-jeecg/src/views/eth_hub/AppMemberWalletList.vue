@@ -27,6 +27,7 @@
     <!-- 操作按钮区域 -->
     <div class="table-operator">
       <a-button @click="handleAdd" type="primary" icon="plus">新增</a-button>
+      <a-button @click="handleCashout" type="primary" icon="plus">提现</a-button>
       <a-button type="primary" icon="download" @click="handleExportXls('app_member_wallet')">导出</a-button>
 <!--      <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">-->
 <!--        <a-button type="primary" icon="import">导入</a-button>-->
@@ -105,6 +106,7 @@
     </div>
 
     <app-member-wallet-modal ref="modalForm" @ok="modalFormOk"></app-member-wallet-modal>
+    <app-member-wallet-cashout-modal ref='cashoutForm' @ok="modalFormOk"></app-member-wallet-cashout-modal>
   </a-card>
 </template>
 
@@ -114,12 +116,14 @@
   import { mixinDevice } from '@/utils/mixin'
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
   import AppMemberWalletModal from './modules/AppMemberWalletModal'
+  import AppMemberWalletCashoutModal from '@views/eth_hub/modules/AppMemberWalletCashoutModal'
 
   export default {
     name: 'AppMemberWalletList',
     mixins:[JeecgListMixin, mixinDevice],
     components: {
-      AppMemberWalletModal
+      AppMemberWalletModal,
+      AppMemberWalletCashoutModal
     },
     data () {
       return {
@@ -207,7 +211,17 @@
         fieldList.push({type:'BigDecimal',value:'totalEarnings',text:'总收益',dictCode:''})
         fieldList.push({type:'BigDecimal',value:'unpaid',text:'待入账',dictCode:''})
         this.superFieldList = fieldList
-      }
+      },
+      handleCashout:function(){
+        if (this.selectionRows.length !== 1) {
+          this.$message.warning("请选中要调整的会员!");
+          return;
+        }
+
+        this.$refs.cashoutForm.edit(this.selectionRows[0]);
+        this.$refs.cashoutForm.title="手工調賬";
+
+      },
     }
   }
 </script>
