@@ -129,7 +129,11 @@ public class AppMemberApiServiceImpl implements AppMemberApiService {
         // 系统通过定时任务处理账单，矿池支付后待入账金额变成0,在账单结算前，待入账金额应加上为结算账单的金额
         Optional<List<EtherPayout>> unSettle = payoutDao.findAllBySettleStatusAndMinerId(0, miner.getId());
         BigDecimal unSettleAmount = BigDecimal.ZERO;
-        unSettle.ifPresent(list -> list.forEach(unit -> unSettleAmount.add(unit.getAmount())));
+        if (unSettle.isPresent()) {
+            for (EtherPayout payout : unSettle.get()) {
+                unSettleAmount = unSettleAmount.add(payout.getAmount());
+            }
+        }
 
         // 折扣率
         BigDecimal rate = BigDecimal.ONE.subtract(member.getChargeRate());
