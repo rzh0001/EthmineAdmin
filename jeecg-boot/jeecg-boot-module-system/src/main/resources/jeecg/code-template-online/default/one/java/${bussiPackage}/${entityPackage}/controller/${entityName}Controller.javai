@@ -72,7 +72,7 @@ public class ${entityName}Controller extends JeecgController<${entityName}, I${e
 								   @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
 								   HttpServletRequest req) {
 		QueryWrapper<${entityName}> queryWrapper = QueryGenerator.initQueryWrapper(${entityName?uncap_first}, req.getParameterMap());
-		Page<${entityName}> page = new Page<${entityName}>(pageNo, pageSize);
+		Page<${entityName}> page = new Page<>(pageNo, pageSize);
 		IPage<${entityName}> pageList = ${entityName?uncap_first}Service.page(page, queryWrapper);
 		return Result.OK(pageList);
 	}
