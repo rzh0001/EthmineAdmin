@@ -186,8 +186,8 @@ public class AppMemberApiServiceImpl implements AppMemberApiService {
         bills.forEach(bill -> {
             AppMemberBillData data = new AppMemberBillData();
             BeanUtils.copyProperties(bill, data);
-            data.setAmount(bill.getAmount().setScale(5, RoundingMode.DOWN));
-            data.setBalance(bill.getBalance().setScale(5, RoundingMode.DOWN));
+            data.setAmount(bill.getAmount().setScale(4, RoundingMode.DOWN));
+            data.setBalance(bill.getBeforeBalance().setScale(4, RoundingMode.DOWN));
             list.add(data);
         });
         return list;

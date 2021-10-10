@@ -53,7 +53,8 @@ public class AppMemberBillServiceImpl extends ServiceImpl<AppMemberBillMapper, A
         BigDecimal amount = payout.getAmount().multiply(rate).setScale(4, RoundingMode.DOWN);
         bill.setAmount(amount);
         bill.setCharge(payout.getAmount().subtract(amount));
-        bill.setBalance(wallet.get().getBalance());
+        bill.setBeforeBalance(wallet.get().getBalance());
+        bill.setAfterBalance(wallet.get().getBalance().add(amount));
         bill.setCurrency("ETH");
         bill.setType("SETTLE");
         bill.setDetailId(payout.getId());
@@ -63,7 +64,6 @@ public class AppMemberBillServiceImpl extends ServiceImpl<AppMemberBillMapper, A
         save(bill);
 
         walletService.income(wallet.get().getId(), amount);
-
     }
 
     @NotNull
@@ -84,21 +84,19 @@ public class AppMemberBillServiceImpl extends ServiceImpl<AppMemberBillMapper, A
             throw new JeecgBootException("Member Wallet has something wrong. member:" + member.getUsername());
         }
 
-//        if (RuanTool.compare(amount, wallet.get().getBalance())) {
-//            throw new JeecgBootException("提现金额大于钱包余额");
-//        }
-
+        if (RuanTool.compare(amount, wallet.get().getBalance())) {
+            throw new JeecgBootException("提现金额大于钱包余额");
+        }
 
         AppMemberBill bill = newBill(member);
         bill.setAmount(amount.negate());
-        bill.setBalance(wallet.get().getBalance());
+        bill.setBeforeBalance(wallet.get().getBalance());
+        bill.setAfterBalance(wallet.get().getBalance().subtract(amount));
         bill.setCurrency("ETH");
         bill.setType("CASHOUT");
 
         save(bill);
 
         walletService.payout(wallet.get().getId(), amount);
-
-
     }
 }

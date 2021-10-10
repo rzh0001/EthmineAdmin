@@ -175,14 +175,19 @@
             dataIndex: 'amount'
           },
           {
-            title:'钱包余额',
-            align:"center",
-            dataIndex: 'balance'
-          },
-          {
             title:'手续费',
             align:"center",
             dataIndex: 'charge'
+          },
+          {
+            title:'更新前余额',
+            align:"center",
+            dataIndex: 'beforeBalance'
+          },
+          {
+            title:'更新后余额',
+            align:"center",
+            dataIndex: 'afterBalance'
           },
           {
             title:'账单详情',
@@ -238,8 +243,9 @@
         fieldList.push({type:'string',value:'currency',text:'币种',dictCode:''})
         fieldList.push({type:'string',value:'type',text:'账单类型',dictCode:'bill_type'})
         fieldList.push({type:'BigDecimal',value:'amount',text:'账单金额',dictCode:''})
-        fieldList.push({type:'BigDecimal',value:'balance',text:'钱包余额',dictCode:''})
         fieldList.push({type:'BigDecimal',value:'charge',text:'手续费',dictCode:''})
+        fieldList.push({type:'BigDecimal',value:'beforeBalance',text:'更新前余额',dictCode:''})
+        fieldList.push({type:'BigDecimal',value:'afterBalance',text:'更新后余额',dictCode:''})
         fieldList.push({type:'string',value:'detail',text:'账单详情',dictCode:''})
         fieldList.push({type:'string',value:'detailId',text:'详情关联',dictCode:''})
         fieldList.push({type:'string',value:'settleDate',text:'结算日',dictCode:''})

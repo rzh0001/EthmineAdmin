@@ -63,14 +63,18 @@ public class AppMemberBill implements Serializable {
 	@Excel(name = "账单金额", width = 15)
     @ApiModelProperty(value = "账单金额")
     private java.math.BigDecimal amount;
-	/**钱包余额*/
-	@Excel(name = "钱包余额", width = 15)
-    @ApiModelProperty(value = "钱包余额")
-    private java.math.BigDecimal balance;
 	/**手续费*/
 	@Excel(name = "手续费", width = 15)
     @ApiModelProperty(value = "手续费")
     private java.math.BigDecimal charge;
+	/**更新前余额*/
+	@Excel(name = "更新前余额", width = 15)
+    @ApiModelProperty(value = "更新前余额")
+    private java.math.BigDecimal beforeBalance;
+	/**更新后余额*/
+	@Excel(name = "更新后余额", width = 15)
+    @ApiModelProperty(value = "更新后余额")
+    private java.math.BigDecimal afterBalance;
 	/**账单详情*/
 	@Excel(name = "账单详情", width = 15)
     @ApiModelProperty(value = "账单详情")
