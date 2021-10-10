@@ -144,10 +144,12 @@ public class AppMemberApiServiceImpl implements AppMemberApiService {
         int scale = 4;
         data.setUnpaid(resultAmount.multiply(rate).setScale(scale, RoundingMode.DOWN));
 
-        AppMemberWallet wallet = walletDao.findByMemberUsernameAndCurrency(username, "ETH");
-        data.setBalance(wallet.getBalance().setScale(scale, RoundingMode.DOWN));
-        data.setTotalEarnings(wallet.getTotalEarnings().setScale(scale, RoundingMode.DOWN));
-
+        Optional<AppMemberWallet> wallet = walletDao.findByMemberUsernameAndCurrency(username, "ETH");
+        if (!wallet.isPresent()) {
+            throw new JeecgBootException("Member Wallet has something wrong");
+        }
+        data.setBalance(wallet.get().getBalance().setScale(scale, RoundingMode.DOWN));
+        data.setTotalEarnings(wallet.get().getTotalEarnings().setScale(scale, RoundingMode.DOWN));
 
         // 算力统一打折
         data.setCurrentHashrate(BigDecimal.valueOf(miner.getCurrentHashrate() / 1000 * 0.975).setScale(2, RoundingMode.DOWN).doubleValue());

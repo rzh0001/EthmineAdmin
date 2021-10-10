@@ -102,9 +102,9 @@ public class EtherminePersistServiceImpl implements EtherminePersistService {
         Payout.DataDTO.EstimatesDTO estimates = data.getData().getEstimates();
         if (BeanUtil.isNotEmpty(estimates)) {
             miner.setAverageHashrate(estimates.getAverageHashrate() / 1000000);
-            miner.setCoinsPerMin(estimates.getCoinsPerMin());
-            miner.setUsdPerMin(estimates.getUsdPerMin());
-            miner.setBtcPerMin(estimates.getBtcPerMin());
+            miner.setCoinsPerDay(estimates.getCoinsPerMin() * 60 * 24);
+            miner.setUsdPerDay(estimates.getUsdPerMin() * 60 * 24);
+            miner.setBtcPerDay(estimates.getBtcPerMin() * 60 * 24);
             minerService.updateById(miner);
         }
 

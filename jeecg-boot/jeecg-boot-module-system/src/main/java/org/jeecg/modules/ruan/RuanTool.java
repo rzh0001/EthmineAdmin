@@ -23,14 +23,20 @@ public class RuanTool {
     /**
      * 字符串拼接，参考Slf4j源码
      *
-     * @param format
-     * @param args
-     * @return
+     * @param format 原字符串
+     * @param args   插入参数
+     * @return String 拼接后的字符串
      */
     public static String concat(String format, Object... args) {
         return MessageFormatter.arrayFormat(format, args).getMessage();
     }
 
+    /**
+     * 针对矿池API数据脚本，将timeout延长
+     *
+     * @param url
+     * @return
+     */
     public static String httpGet(String url) {
         log.info("http get: {}", url);
         String res = HttpUtil.get(url, 40000);
@@ -41,7 +47,7 @@ public class RuanTool {
     /**
      * 矿池API返回的时间格式是 以秒未单位的 Timestamp， 要转化为Date类型再保存到数据库
      *
-     * @param time
+     * @param time 秒级时间戳
      * @return
      */
     public static Timestamp convertTime(Integer time) {
@@ -51,8 +57,8 @@ public class RuanTool {
     /**
      * 判断两个日期相差的分钟数(绝对值)
      *
-     * @param date1
-     * @param date2
+     * @param date1 date1
+     * @param date2 date2
      * @return
      */
     public static long betweenDateToMinute(Date date1, Date date2) {
@@ -63,7 +69,7 @@ public class RuanTool {
     /**
      * 转化矿池API返回的数量为以枚为单位
      *
-     * @param amount
+     * @param amount eth个数
      * @return
      */
     public static BigDecimal convertEtherAmount(BigDecimal amount) {
@@ -73,12 +79,25 @@ public class RuanTool {
     /**
      * 时间格式为小时 "2021-10-05 12"
      *
-     * @param date
+     * @param date date
      * @return
      */
     public static String dateToHourString(Date date) {
         FastDateFormat instance = FastDateFormat.getInstance("yyyy-MM-dd HH");
         return instance.format(date);
+    }
+
+    /**
+     * 比较两个BigDecimal,
+     * - one >= two 返回 true
+     * - one < two 返回 false
+     *
+     * @param one one
+     * @param two two
+     * @return
+     */
+    public static boolean compare(BigDecimal one, BigDecimal two) {
+        return one.compareTo(two) != -1;
     }
 
 }

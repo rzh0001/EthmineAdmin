@@ -7,15 +7,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.system.query.QueryGenerator;
 import org.jeecg.modules.demo.eth_hub.entity.AppMember;
+import org.jeecg.modules.demo.eth_hub.service.IAppMemberBillService;
 import org.jeecg.modules.demo.eth_hub.service.IAppMemberService;
+import org.jeecg.modules.demo.eth_hub.service.IAppMemberWalletService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -24,6 +25,12 @@ public class AppMemberAdminController {
 
     @Autowired
     private IAppMemberService appMemberService;
+
+    @Autowired
+    private IAppMemberWalletService walletService;
+
+    @Autowired
+    private IAppMemberBillService billService;
 
     @GetMapping(value = "/getMultiMember")
     public List<AppMember> getMultiMember(AppMember member) {
@@ -47,6 +54,26 @@ public class AppMemberAdminController {
         Page<AppMember> page = new Page<AppMember>(pageNo, pageSize);
         IPage<AppMember> pageList = appMemberService.page(page, queryWrapper);
         return Result.OK(pageList);
+    }
+
+    /**
+     * 手工调账
+     *
+     * @param params 参数
+     * @return
+     */
+    @PostMapping(value = "/manualAdjust")
+    public Result<?> manualAdjust(@RequestBody Map<String, String> params) {
+
+        AppMember member = appMemberService.getById(params.get("memberId"));
+        String type = params.get("type");
+        if ("CASHOUT".equals(type)) {
+            billService.cashoutWalletBalanceBill(member, new BigDecimal(params.get("amount")));
+        } else {
+            return Result.error("调账只支持提现");
+        }
+
+        return Result.OK();
     }
 }
 

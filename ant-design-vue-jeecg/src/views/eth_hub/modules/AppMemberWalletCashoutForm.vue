@@ -41,7 +41,7 @@
 
 <script>
 
-  import { httpAction, getAction } from '@/api/manage'
+import { postAction, getAction, postFormAction } from '@/api/manage'
   import { validateDuplicateValue } from '@/utils/util'
 
   export default {
@@ -81,7 +81,8 @@
         url: {
           add: "/eth_hub/appMemberWallet/add",
           edit: "/eth_hub/appMemberWallet/edit",
-          queryById: "/eth_hub/appMemberWallet/queryById"
+          queryById: "/eth_hub/appMemberWallet/queryById",
+          manualAdjust: "/eth_hub/appMember/manualAdjust"
         }
       }
     },
@@ -109,7 +110,7 @@
           if (valid) {
             that.confirmLoading = true;
 
-            httpAction('httpurl',this.model,method).then((res)=>{
+            postAction(this.url.manualAdjust , { walletId: this.model.id, type: this.model.type, amount: this.model.amount, memberId: this.model.memberId }).then((res)=>{
               if(res.success){
                 that.$message.success(res.message);
                 that.$emit('ok');

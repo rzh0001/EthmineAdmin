@@ -219,9 +219,9 @@
             dataIndex: 'lastSeen'
           },
           {
-            title:'每分钟收益(ETH)',
+            title:'预计日收益(ETH)',
             align:"center",
-            dataIndex: 'coinsPerMin'
+            dataIndex: 'coinsPerDay'
           },
           {
             title: '操作',
@@ -271,7 +271,7 @@
         fieldList.push({type:'int',value:'invalidShares',text:'无效份额',dictCode:''})
         fieldList.push({type:'int',value:'staleShares',text:'延迟份额',dictCode:''})
         fieldList.push({type:'datetime',value:'lastSeen',text:'最后更新'})
-        fieldList.push({type:'double',value:'coinsPerMin',text:'每分钟收益(ETH)',dictCode:''})
+        fieldList.push({type:'double',value:'coinsPerDay',text:'预计日收益(ETH)',dictCode:''})
         this.superFieldList = fieldList
       }
     }

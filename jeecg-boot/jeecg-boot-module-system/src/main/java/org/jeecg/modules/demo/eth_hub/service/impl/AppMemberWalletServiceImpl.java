@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.jeecg.common.exception.JeecgBootException;
 import org.jeecg.modules.demo.eth_hub.dao.AppMemberWalletRepository;
 import org.jeecg.modules.demo.eth_hub.dao.EtherMinerRepository;
 import org.jeecg.modules.demo.eth_hub.entity.AppMember;
@@ -18,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 /**
  * @Description: app_member_wallet
@@ -56,8 +58,8 @@ public class AppMemberWalletServiceImpl extends ServiceImpl<AppMemberWalletMappe
     public void newWallet(AppMember member, String currency) {
 
         // check
-        AppMemberWallet check = dao.findByMemberUsernameAndCurrency(member.getUsername(), currency);
-        if (BeanUtil.isNotEmpty(check)) {
+        Optional<AppMemberWallet> check = dao.findByMemberUsernameAndCurrency(member.getUsername(), currency);
+        if (check.isPresent()) {
             log.info("该用户已有" + currency + "钱包账户,不再新开钱包");
             return;
         }
@@ -73,8 +75,19 @@ public class AppMemberWalletServiceImpl extends ServiceImpl<AppMemberWalletMappe
     }
 
     @Override
-    public void income(AppMember member, String currency, BigDecimal amount) {
+    public void income(String walletId, BigDecimal amount) {
 
-        baseMapper.income(member.getId(), currency, amount);
+        boolean result = baseMapper.income(walletId, amount);
+        if (!result) {
+            throw new JeecgBootException("更新余额失败！");
+        }
+    }
+
+    @Override
+    public void payout(String walletId, BigDecimal amount) {
+        boolean result = baseMapper.payout(walletId, amount);
+        if (!result) {
+            throw new JeecgBootException("更新余额失败！");
+        }
     }
 }

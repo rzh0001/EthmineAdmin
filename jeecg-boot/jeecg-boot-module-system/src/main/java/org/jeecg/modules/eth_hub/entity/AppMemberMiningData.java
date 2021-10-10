@@ -30,6 +30,9 @@ public class AppMemberMiningData {
      */
     @ApiModelProperty(value = "当前算力")
     private java.lang.Double currentHashrate;
+
+    @ApiModelProperty(value = "平均算力")
+    private java.lang.Double averageHashrate;
     /**
      * 有效份额
      */
@@ -56,6 +59,12 @@ public class AppMemberMiningData {
      */
     @ApiModelProperty(value = "待入账")
     private java.math.BigDecimal unpaid;
+
+    /**
+     * 预计日收益(ETH)
+     */
+    @ApiModelProperty(value = "预计日收益(ETH)")
+    private java.lang.Double coinsPerDay;
 
 
 }

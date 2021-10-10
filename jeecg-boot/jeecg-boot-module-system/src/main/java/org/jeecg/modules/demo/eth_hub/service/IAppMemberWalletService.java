@@ -22,6 +22,20 @@ public interface IAppMemberWalletService extends IService<AppMemberWallet> {
     void newWallet(AppMember member, String currency);
 
 
-    void income(AppMember member, String currency, BigDecimal amount);
+    /**
+     * 收入
+     *
+     * @param walletId 会员钱包ID
+     * @param amount   金额
+     */
+    void income(String walletId, BigDecimal amount);
+
+    /**
+     * 支出
+     *
+     * @param walletId 会员钱包ID
+     * @param amount   金额
+     */
+    void payout(String walletId, BigDecimal amount);
 
 }

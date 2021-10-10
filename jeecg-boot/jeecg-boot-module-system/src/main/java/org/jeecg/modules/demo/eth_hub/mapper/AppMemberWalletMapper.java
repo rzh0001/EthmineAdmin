@@ -13,6 +13,9 @@ import java.math.BigDecimal;
  */
 public interface AppMemberWalletMapper extends BaseMapper<AppMemberWallet> {
 
-    @Update("update app_member_wallet set balance = balance + #{amount},total_earnings = total_earnings + #{amount} where member_id = #{id} and currency = #{currency}")
-    void income(String id, String currency, BigDecimal amount);
+    @Update("update app_member_wallet set balance = balance + #{amount},total_earnings = total_earnings + #{amount} where id = #{id}")
+    boolean income(String id, BigDecimal amount);
+
+    @Update("update app_member_wallet set balance = balance - #{amount} where id = #{id} and balance - #{amount} >= 0")
+    boolean payout(String id, BigDecimal amount);
 }

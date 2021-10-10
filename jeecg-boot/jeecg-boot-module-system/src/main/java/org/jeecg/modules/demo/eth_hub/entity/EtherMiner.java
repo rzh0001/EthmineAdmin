@@ -139,16 +139,16 @@ public class EtherMiner implements Serializable {
 	@Excel(name = "delFlag", width = 15)
     @ApiModelProperty(value = "delFlag")
     private java.lang.Integer delFlag;
-	/**每分钟收益(ETH)*/
-	@Excel(name = "每分钟收益(ETH)", width = 15)
-    @ApiModelProperty(value = "每分钟收益(ETH)")
-    private java.lang.Double coinsPerMin;
-	/**每分钟收益(USD)*/
-	@Excel(name = "每分钟收益(USD)", width = 15)
-    @ApiModelProperty(value = "每分钟收益(USD)")
-    private java.lang.Double usdPerMin;
-	/**每分钟收益(BTC)*/
-	@Excel(name = "每分钟收益(BTC)", width = 15)
-    @ApiModelProperty(value = "每分钟收益(BTC)")
-    private java.lang.Double btcPerMin;
+	/**预计日收益(ETH)*/
+	@Excel(name = "预计日收益(ETH)", width = 15)
+    @ApiModelProperty(value = "预计日收益(ETH)")
+    private java.lang.Double coinsPerDay;
+	/**预计日收益(USD)*/
+	@Excel(name = "预计日收益(USD)", width = 15)
+    @ApiModelProperty(value = "预计日收益(USD)")
+    private java.lang.Double usdPerDay;
+	/**预计日收益(BTC)*/
+	@Excel(name = "预计日收益(BTC)", width = 15)
+    @ApiModelProperty(value = "预计日收益(BTC)")
+    private java.lang.Double btcPerDay;
 }
