@@ -12,4 +12,6 @@ public interface EtherPayoutRepository extends CrudRepository<EtherPayout, Strin
 
     Optional<List<EtherPayout>> findAllBySettleStatusAndMinerId(Integer settleStatus, String minerId);
 
+    boolean existsBySettleStatus(Integer settleStatus);
+
 }

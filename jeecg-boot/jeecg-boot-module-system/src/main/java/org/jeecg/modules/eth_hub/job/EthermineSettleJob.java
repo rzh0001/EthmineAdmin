@@ -16,11 +16,13 @@ import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
 
 @Slf4j
+@Component
 public class EthermineSettleJob implements Job {
 
     @Autowired
@@ -42,6 +44,12 @@ public class EthermineSettleJob implements Job {
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
         log.info(" --- {} 任务调度开始 --- {} ", this.getClass().getName(), DateUtils.now());
 
+        settle();
+
+        log.info(" --- {} 任务执行完毕 --- {} ", this.getClass().getName(), DateUtils.now());
+    }
+
+    public void settle() {
         List<EtherMiner> miners = minerService.list();
         for (EtherMiner miner : miners) {
 
@@ -72,8 +80,6 @@ public class EthermineSettleJob implements Job {
 
             payoutService.saveOrUpdateBatch(unSettle.get());
         }
-
-        log.info(" --- {} 任务执行完毕 --- {} ", this.getClass().getName(), DateUtils.now());
     }
 
 }

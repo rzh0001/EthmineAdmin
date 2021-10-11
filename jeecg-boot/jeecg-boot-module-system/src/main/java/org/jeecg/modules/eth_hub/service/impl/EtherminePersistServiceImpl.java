@@ -64,18 +64,17 @@ public class EtherminePersistServiceImpl implements EtherminePersistService {
         miner.setLastSeen(RuanTool.convertTime(current.getLastSeen()));
 
 
-        res.getData().getWorkers().forEach(value -> {
-            workerService.saveWorker(miner, value);
-        });
+        res.getData().getWorkers().forEach(value -> workerService.saveWorker(miner, value));
 
         // 当矿机离线超过一定时长，接口中的数据将不再有此矿机的数据，将这些矿机的状态改为无数据
         workerService.updateInactiveWorkers(miner);
 
-        // 更新矿机总数
+        // 更新矿机总数、在线矿机数
+        Integer activeWorkers = workerDao.countByMinerIdAndOnlineStatus(miner.getId(), 1);
         Integer workers = workerDao.countAllByMinerId(miner.getId());
         miner.setWorkers(workers);
+        miner.setActiveWorkers(activeWorkers);
         minerService.saveOrUpdate(miner);
-
 
         log.info("persist miner end [{}]:[{}]", miner.getMinerName(), miner.getMinerAddress());
 
