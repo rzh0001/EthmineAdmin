@@ -120,6 +120,8 @@ public class AppMemberAdminController {
         for (EtherPayout payout : payouts) {
             totalEth = totalEth.add(payout.getAmount());
         }
+        // 特殊处理：总收益要加上星火结余，矿池支付表没有这部分数据
+        totalEth = totalEth.add(new BigDecimal("191.6489"));
         platformProfit = totalEth.subtract(memberProfit);
 
         Map<String, Object> map = new HashMap<>();
