@@ -46,9 +46,9 @@ public class EtherWorker implements Serializable {
 	@Excel(name = "矿机名称", width = 15)
     @ApiModelProperty(value = "矿机名称")
     private java.lang.String workerName;
-	/**矿工地址*/
-	@Excel(name = "矿工地址", width = 15)
-    @ApiModelProperty(value = "矿工地址")
+	/**矿工ID*/
+	@Excel(name = "矿工ID", width = 15)
+    @ApiModelProperty(value = "矿工ID")
     private java.lang.String minerId;
 	/**账户别名*/
 	@Excel(name = "账户别名", width = 15)
@@ -58,6 +58,11 @@ public class EtherWorker implements Serializable {
 	@Excel(name = "ETH地址", width = 15)
     @ApiModelProperty(value = "ETH地址")
     private java.lang.String minerAddress;
+	/**在线状态*/
+	@Excel(name = "在线状态", width = 15, dicCode = "online_status")
+	@Dict(dicCode = "online_status")
+    @ApiModelProperty(value = "在线状态")
+    private java.lang.Integer onlineStatus;
 	/**报告时间*/
 	@Excel(name = "报告时间", width = 15, format = "yyyy-MM-dd")
 	@JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd")
@@ -110,9 +115,4 @@ public class EtherWorker implements Serializable {
 	@Excel(name = "delFlag", width = 15)
     @ApiModelProperty(value = "delFlag")
     private java.lang.Integer delFlag;
-	/**在线状态*/
-	@Excel(name = "在线状态", width = 15, dicCode = "online_status")
-	@Dict(dicCode = "online_status")
-    @ApiModelProperty(value = "在线状态")
-    private java.lang.Integer onlineStatus;
 }

@@ -52,11 +52,11 @@ public class EtherWorkerController extends JeecgController<EtherWorker, IEtherWo
 	/**
 	 * 分页列表查询
 	 *
-	 * @param etherWorker
-	 * @param pageNo
-	 * @param pageSize
-	 * @param req
-	 * @return
+	 * @param etherWorker 查询条件
+	 * @param pageNo    页码
+	 * @param pageSize  分页大小
+	 * @param req   请求体
+	 * @return  结果
 	 */
 	@AutoLog(value = "ether_worker-分页列表查询")
 	@ApiOperation(value="ether_worker-分页列表查询", notes="ether_worker-分页列表查询")
@@ -66,7 +66,7 @@ public class EtherWorkerController extends JeecgController<EtherWorker, IEtherWo
 								   @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
 								   HttpServletRequest req) {
 		QueryWrapper<EtherWorker> queryWrapper = QueryGenerator.initQueryWrapper(etherWorker, req.getParameterMap());
-		Page<EtherWorker> page = new Page<EtherWorker>(pageNo, pageSize);
+		Page<EtherWorker> page = new Page<>(pageNo, pageSize);
 		IPage<EtherWorker> pageList = etherWorkerService.page(page, queryWrapper);
 		return Result.OK(pageList);
 	}
@@ -74,8 +74,8 @@ public class EtherWorkerController extends JeecgController<EtherWorker, IEtherWo
 	/**
 	 *   添加
 	 *
-	 * @param etherWorker
-	 * @return
+	 * @param etherWorker 实体参数
+	 * @return  结果
 	 */
 	@AutoLog(value = "ether_worker-添加")
 	@ApiOperation(value="ether_worker-添加", notes="ether_worker-添加")
@@ -88,8 +88,8 @@ public class EtherWorkerController extends JeecgController<EtherWorker, IEtherWo
 	/**
 	 *  编辑
 	 *
-	 * @param etherWorker
-	 * @return
+	 * @param etherWorker 实体参数
+	 * @return  结果
 	 */
 	@AutoLog(value = "ether_worker-编辑")
 	@ApiOperation(value="ether_worker-编辑", notes="ether_worker-编辑")
@@ -102,13 +102,13 @@ public class EtherWorkerController extends JeecgController<EtherWorker, IEtherWo
 	/**
 	 *   通过id删除
 	 *
-	 * @param id
-	 * @return
+	 * @param id    主键ID
+	 * @return  结果
 	 */
 	@AutoLog(value = "ether_worker-通过id删除")
 	@ApiOperation(value="ether_worker-通过id删除", notes="ether_worker-通过id删除")
 	@DeleteMapping(value = "/delete")
-	public Result<?> delete(@RequestParam(name="id",required=true) String id) {
+	public Result<?> delete(@RequestParam(name="id") String id) {
 		etherWorkerService.removeById(id);
 		return Result.OK("删除成功!");
 	}
@@ -116,13 +116,13 @@ public class EtherWorkerController extends JeecgController<EtherWorker, IEtherWo
 	/**
 	 *  批量删除
 	 *
-	 * @param ids
-	 * @return
+	 * @param ids   主键IDs
+	 * @return  结果
 	 */
 	@AutoLog(value = "ether_worker-批量删除")
 	@ApiOperation(value="ether_worker-批量删除", notes="ether_worker-批量删除")
 	@DeleteMapping(value = "/deleteBatch")
-	public Result<?> deleteBatch(@RequestParam(name="ids",required=true) String ids) {
+	public Result<?> deleteBatch(@RequestParam(name="ids") String ids) {
 		this.etherWorkerService.removeByIds(Arrays.asList(ids.split(",")));
 		return Result.OK("批量删除成功!");
 	}
@@ -130,13 +130,13 @@ public class EtherWorkerController extends JeecgController<EtherWorker, IEtherWo
 	/**
 	 * 通过id查询
 	 *
-	 * @param id
-	 * @return
+	 * @param id    主键ID
+	 * @return  结果
 	 */
 	@AutoLog(value = "ether_worker-通过id查询")
 	@ApiOperation(value="ether_worker-通过id查询", notes="ether_worker-通过id查询")
 	@GetMapping(value = "/queryById")
-	public Result<?> queryById(@RequestParam(name="id",required=true) String id) {
+	public Result<?> queryById(@RequestParam(name="id") String id) {
 		EtherWorker etherWorker = etherWorkerService.getById(id);
 		if(etherWorker==null) {
 			return Result.error("未找到对应数据");
@@ -147,8 +147,8 @@ public class EtherWorkerController extends JeecgController<EtherWorker, IEtherWo
     /**
     * 导出excel
     *
-    * @param request
-    * @param etherWorker
+    * @param request    请求体
+    * @param etherWorker  查询参数
     */
     @RequestMapping(value = "/exportXls")
     public ModelAndView exportXls(HttpServletRequest request, EtherWorker etherWorker) {
@@ -158,9 +158,9 @@ public class EtherWorkerController extends JeecgController<EtherWorker, IEtherWo
     /**
       * 通过excel导入数据
     *
-    * @param request
-    * @param response
-    * @return
+    * @param request    请求体
+    * @param response   响应体
+    * @return   结果
     */
     @RequestMapping(value = "/importExcel", method = RequestMethod.POST)
     public Result<?> importExcel(HttpServletRequest request, HttpServletResponse response) {
