@@ -132,7 +132,8 @@
         </a-col>
       </a-row>
     </div>
-    <iframe src="https://cn.widgets.investing.com/top-cryptocurrencies?theme=darkTheme&roundedCorners=true&cols=symbol,priceUsd,marketCap,vol24,totalVol,chg24,chg7" width="100%" height="100%" frameborder="0" allowtransparency="true" marginwidth="0" marginheight="0"></iframe>
+    <iframe src="https://cn.widgets.investing.com/top-cryptocurrencies?theme=darkTheme&roundedCorners=true&cols=symbol,priceUsd,marketCap,vol24,totalVol,chg24,chg7"
+            width="100%" height="400" frameborder="0" allowtransparency="true" marginwidth="0" marginheight="0"></iframe>
 
     <div style='background: #f0f2f5; padding: 15px'>
       <a-row :gutter='12'>
