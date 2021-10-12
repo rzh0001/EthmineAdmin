@@ -129,8 +129,8 @@ public class AppMemberAdminController {
         map.put("inactiveWorkers", inactiveWorkers);
         map.put("memberProfit", memberProfit);
         map.put("memberBalance", memberBalance);
-        map.put("reportedHashrate", reportedHashrate);
-        map.put("averageHashrate", averageHashrate);
+        map.put("reportedHashrate", reportedHashrate / 1000); // M 折算成 G
+        map.put("averageHashrate", averageHashrate / 1000);
         map.put("totalEth", totalEth);
         map.put("platformProfit", platformProfit.setScale(4, RoundingMode.DOWN));
 
