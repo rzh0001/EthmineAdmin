@@ -7,7 +7,7 @@
     @close="close"
     destroyOnClose
     :visible="visible">
-    <ether-worker-form ref="realForm" @ok="submitCallback" :disabled="disableSubmit" normal></ether-worker-form>
+    <digital-currency-form ref="realForm" @ok="submitCallback" :disabled="disableSubmit" normal></digital-currency-form>
     <div class="drawer-footer">
       <a-button @click="handleCancel" style="margin-bottom: 0;">关闭</a-button>
       <a-button v-if="!disableSubmit"  @click="handleOk" type="primary" style="margin-bottom: 0;">提交</a-button>
@@ -17,12 +17,12 @@
 
 <script>
 
-  import EtherWorkerForm from './EtherWorkerForm'
+  import DigitalCurrencyForm from './DigitalCurrencyForm'
 
   export default {
-    name: 'EtherWorkerModal',
+    name: 'DigitalCurrencyModal',
     components: {
-      EtherWorkerForm
+      DigitalCurrencyForm
     },
     data () {
       return {

@@ -15,6 +15,7 @@ import org.jeecg.modules.demo.eth_hub.dao.EtherPayoutRepository;
 import org.jeecg.modules.demo.eth_hub.entity.*;
 import org.jeecg.modules.demo.eth_hub.service.IAppMemberService;
 import org.jeecg.modules.demo.eth_hub.service.IAppMemberWalletService;
+import org.jeecg.modules.demo.eth_hub.service.IDigitalCurrencyService;
 import org.jeecg.modules.eth_hub.dao.AppMemberRepository;
 import org.jeecg.modules.eth_hub.dao.EtherWorkerRepository;
 import org.jeecg.modules.eth_hub.entity.AppMemberBillData;
@@ -61,6 +62,8 @@ public class AppMemberApiServiceImpl implements AppMemberApiService {
     private AppMemberBillRepository billDao;
     @Autowired
     private EtherPayoutRepository payoutDao;
+    @Autowired
+    private IDigitalCurrencyService currencyService;
 
 
     @Override
@@ -162,6 +165,13 @@ public class AppMemberApiServiceImpl implements AppMemberApiService {
         data.setWorkers(workers);
         data.setActiveWorkers(activeWorkers); // 接口返回的在线矿机数是错误的
         data.setInactiveWorkers(workers - activeWorkers);
+
+
+        DigitalCurrency eth = currencyService.eth();
+        if (BeanUtil.isNotEmpty(eth)) {
+            data.setCnyPrice(eth.getCny());
+            data.setUsdPrice(eth.getUsd());
+        }
 
         return data;
     }

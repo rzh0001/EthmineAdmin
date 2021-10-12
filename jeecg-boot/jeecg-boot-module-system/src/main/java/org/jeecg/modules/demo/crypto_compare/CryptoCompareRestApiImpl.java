@@ -2,7 +2,9 @@ package org.jeecg.modules.demo.crypto_compare;
 
 import cn.hutool.json.JSONUtil;
 import org.jeecg.modules.ruan.RuanTool;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CryptoCompareRestApiImpl implements CryptoCompareRestApi {
 
     String apiKey = "0c2cad87f2ff7007b99f38292e572118ec49b213926d8baf0f89e9cc864fd95d";

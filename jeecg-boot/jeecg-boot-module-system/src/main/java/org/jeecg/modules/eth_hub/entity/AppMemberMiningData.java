@@ -3,6 +3,8 @@ package org.jeecg.modules.eth_hub.entity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 /**
  * App 会员挖矿数据
  */
@@ -65,6 +67,10 @@ public class AppMemberMiningData {
      */
     @ApiModelProperty(value = "预计日收益(ETH)")
     private java.lang.Double coinsPerDay;
+
+    private BigDecimal cnyPrice;
+
+    private BigDecimal usdPrice;
 
 
 }

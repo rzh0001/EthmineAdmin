@@ -5,32 +5,10 @@
       <a-form layout="inline" @keyup.enter.native="searchQuery">
         <a-row :gutter="24">
           <a-col :xl="6" :lg="7" :md="8" :sm="24">
-            <a-form-item label="矿机名称">
-              <a-input placeholder="请输入矿机名称" v-model="queryParam.workerName"></a-input>
+            <a-form-item label="币种">
+              <a-input placeholder="请输入币种" v-model="queryParam.currency"></a-input>
             </a-form-item>
           </a-col>
-          <a-col :xl="6" :lg="7" :md="8" :sm="24">
-            <a-form-item label="矿工ID">
-              <a-input placeholder="请输入矿工ID" v-model="queryParam.minerId"></a-input>
-            </a-form-item>
-          </a-col>
-          <template v-if="toggleSearchStatus">
-            <a-col :xl="6" :lg="7" :md="8" :sm="24">
-              <a-form-item label="账户别名">
-                <a-input placeholder="请输入账户别名" v-model="queryParam.minerName"></a-input>
-              </a-form-item>
-            </a-col>
-            <a-col :xl="6" :lg="7" :md="8" :sm="24">
-              <a-form-item label="ETH地址">
-                <a-input placeholder="请输入ETH地址" v-model="queryParam.minerAddress"></a-input>
-              </a-form-item>
-            </a-col>
-            <a-col :xl="6" :lg="7" :md="8" :sm="24">
-              <a-form-item label="在线状态">
-                <j-dict-select-tag placeholder="请选择在线状态" v-model="queryParam.onlineStatus" dictCode="online_status"/>
-              </a-form-item>
-            </a-col>
-          </template>
           <a-col :xl="6" :lg="7" :md="8" :sm="24">
             <span style="float: left;overflow: hidden;" class="table-page-search-submitButtons">
               <a-button type="primary" @click="searchQuery" icon="search">查询</a-button>
@@ -49,7 +27,7 @@
     <!-- 操作按钮区域 -->
     <div class="table-operator">
       <a-button @click="handleAdd" type="primary" icon="plus">新增</a-button>
-      <a-button type="primary" icon="download" @click="handleExportXls('ether_worker')">导出</a-button>
+      <a-button type="primary" icon="download" @click="handleExportXls('digital_currency')">导出</a-button>
       <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">
         <a-button type="primary" icon="import">导入</a-button>
       </a-upload>
@@ -126,7 +104,7 @@
       </a-table>
     </div>
 
-    <ether-worker-modal ref="modalForm" @ok="modalFormOk"></ether-worker-modal>
+    <digital-currency-modal ref="modalForm" @ok="modalFormOk"></digital-currency-modal>
   </a-card>
 </template>
 
@@ -135,18 +113,17 @@
   import '@/assets/less/TableExpand.less'
   import { mixinDevice } from '@/utils/mixin'
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
-  import EtherWorkerModal from './modules/EtherWorkerModal'
-  import {filterMultiDictText} from '@/components/dict/JDictSelectUtil'
+  import DigitalCurrencyModal from './modules/DigitalCurrencyModal'
 
   export default {
-    name: 'EtherWorkerList',
+    name: 'DigitalCurrencyList',
     mixins:[JeecgListMixin, mixinDevice],
     components: {
-      EtherWorkerModal
+      DigitalCurrencyModal
     },
     data () {
       return {
-        description: 'ether_worker管理页面',
+        description: 'digital_currency管理页面',
         // 表头
         columns: [
           {
@@ -160,57 +137,24 @@
             }
           },
           {
-            title:'矿机ID',
+            title:'币种',
             align:"center",
-            dataIndex: 'workerId'
+            dataIndex: 'currency'
           },
           {
-            title:'矿机名称',
+            title:'美元价格',
             align:"center",
-            dataIndex: 'workerName'
+            dataIndex: 'usd'
           },
           {
-            title:'账户别名',
+            title:'人民币价格',
             align:"center",
-            dataIndex: 'minerName'
+            dataIndex: 'cny'
           },
           {
-            title:'在线状态',
+            title:'BTC价格',
             align:"center",
-            dataIndex: 'onlineStatus_dictText'
-          },
-          {
-            title:'最后更新',
-            align:"center",
-            dataIndex: 'lastSeen',
-            customRender:function (text) {
-              return !text?"":(text.length>10?text.substr(0,10):text)
-            }
-          },
-          {
-            title:'报告算力',
-            align:"center",
-            dataIndex: 'reportedHashrate'
-          },
-          {
-            title:'当前算力',
-            align:"center",
-            dataIndex: 'currentHashrate'
-          },
-          {
-            title:'有效份额',
-            align:"center",
-            dataIndex: 'validShares'
-          },
-          {
-            title:'无效份额',
-            align:"center",
-            dataIndex: 'invalidShares'
-          },
-          {
-            title:'延迟份额',
-            align:"center",
-            dataIndex: 'staleShares'
+            dataIndex: 'btc'
           },
           {
             title: '操作',
@@ -222,11 +166,11 @@
           }
         ],
         url: {
-          list: "/eth_hub/etherWorker/list",
-          delete: "/eth_hub/etherWorker/delete",
-          deleteBatch: "/eth_hub/etherWorker/deleteBatch",
-          exportXlsUrl: "/eth_hub/etherWorker/exportXls",
-          importExcelUrl: "eth_hub/etherWorker/importExcel",
+          list: "/eth_hub/digitalCurrency/list",
+          delete: "/eth_hub/digitalCurrency/delete",
+          deleteBatch: "/eth_hub/digitalCurrency/deleteBatch",
+          exportXlsUrl: "/eth_hub/digitalCurrency/exportXls",
+          importExcelUrl: "eth_hub/digitalCurrency/importExcel",
           
         },
         dictOptions:{},
@@ -246,18 +190,10 @@
       },
       getSuperFieldList(){
         let fieldList=[];
-        fieldList.push({type:'string',value:'workerId',text:'矿机ID',dictCode:''})
-        fieldList.push({type:'string',value:'workerName',text:'矿机名称',dictCode:''})
-        fieldList.push({type:'string',value:'minerId',text:'矿工ID',dictCode:''})
-        fieldList.push({type:'string',value:'minerName',text:'账户别名',dictCode:''})
-        fieldList.push({type:'string',value:'minerAddress',text:'ETH地址',dictCode:''})
-        fieldList.push({type:'int',value:'onlineStatus',text:'在线状态',dictCode:'online_status'})
-        fieldList.push({type:'date',value:'lastSeen',text:'最后更新'})
-        fieldList.push({type:'int',value:'reportedHashrate',text:'报告算力',dictCode:''})
-        fieldList.push({type:'double',value:'currentHashrate',text:'当前算力',dictCode:''})
-        fieldList.push({type:'int',value:'validShares',text:'有效份额',dictCode:''})
-        fieldList.push({type:'int',value:'invalidShares',text:'无效份额',dictCode:''})
-        fieldList.push({type:'int',value:'staleShares',text:'延迟份额',dictCode:''})
+        fieldList.push({type:'string',value:'currency',text:'币种',dictCode:''})
+        fieldList.push({type:'BigDecimal',value:'usd',text:'美元价格',dictCode:''})
+        fieldList.push({type:'BigDecimal',value:'cny',text:'人民币价格',dictCode:''})
+        fieldList.push({type:'BigDecimal',value:'btc',text:'BTC价格',dictCode:''})
         this.superFieldList = fieldList
       }
     }

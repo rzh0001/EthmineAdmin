@@ -8,17 +8,17 @@
     :okButtonProps="{ class:{'jee-hidden': disableSubmit} }"
     @cancel="handleCancel"
     cancelText="关闭">
-    <ether-worker-form ref="realForm" @ok="submitCallback" :disabled="disableSubmit"></ether-worker-form>
+    <digital-currency-form ref="realForm" @ok="submitCallback" :disabled="disableSubmit"></digital-currency-form>
   </j-modal>
 </template>
 
 <script>
 
-  import EtherWorkerForm from './EtherWorkerForm'
+  import DigitalCurrencyForm from './DigitalCurrencyForm'
   export default {
-    name: 'EtherWorkerModal',
+    name: 'DigitalCurrencyModal',
     components: {
-      EtherWorkerForm
+      DigitalCurrencyForm
     },
     data () {
       return {
