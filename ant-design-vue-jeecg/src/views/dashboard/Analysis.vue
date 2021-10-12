@@ -1,5 +1,5 @@
 <template>
-  <div class="page-header-index-wide">
+  <div class='page-header-index-wide'>
 
     <a-row :gutter='24'>
       <a-col :span='24' :lg='12' :xl='6' class='mb-24'>
@@ -125,97 +125,97 @@
       </a-col>
     </a-row>
 
-      <div style="background: #f0f2f5; padding: 15px" >
-        <a-row :gutter="12">
-          <a-col :span="1">
-              <a-button shape="circle" icon="reload" @click="initLogInfo"></a-button>
-          </a-col>
-        </a-row>
-      </div>
+    <div style='background: #f0f2f5; padding: 15px'>
+      <a-row :gutter='12'>
+        <a-col :span='1'>
+          <a-button shape='circle' icon='reload' @click='initLogInfo'></a-button>
+        </a-col>
+      </a-row>
+    </div>
+    <iframe src="https://cn.widgets.investing.com/top-cryptocurrencies?theme=darkTheme&roundedCorners=true&cols=symbol,priceUsd,marketCap,vol24,totalVol,chg24,chg7" width="100%" height="100%" frameborder="0" allowtransparency="true" marginwidth="0" marginheight="0"></iframe>
 
-    <div style="background: #f0f2f5; padding: 15px">
-      <a-row :gutter="12">
-        <a-col :span="15">
-<!--          <login-log-list></login-log-list>-->
+    <div style='background: #f0f2f5; padding: 15px'>
+      <a-row :gutter='12'>
+        <a-col :span='15'>
+          <!--          <login-log-list></login-log-list>-->
         </a-col>
 
       </a-row>
     </div>
 
 
-
   </div>
 </template>
 
 <script>
-  import ACol from 'ant-design-vue/es/grid/Col'
-  import ATooltip from 'ant-design-vue/es/tooltip/Tooltip'
+import ACol from 'ant-design-vue/es/grid/Col'
+import ATooltip from 'ant-design-vue/es/tooltip/Tooltip'
 
-  import { getAction } from '@/api/manage'
-  // import LoginLogList from '@views/list/LoginLogList'
+import { getAction } from '@/api/manage'
+// import LoginLogList from '@views/list/LoginLogList'
 
 
-  export default {
-    name: 'Analysis',
-    components: {
-      ATooltip,
-      ACol,
-      // LoginLogList
-    },
-    data() {
-      return {
-        loading: true,
-        center: null,
-        data: [],
-        visitFields: ['ip', 'visit'],
-        visitInfo: [],
-        url: {
-          summary: '/eth_hub/appMember/dashboard',
-          list: '/system/loginLog/list',
+export default {
+  name: 'Analysis',
+  components: {
+    ATooltip,
+    ACol
+    // LoginLogList
+  },
+  data() {
+    return {
+      loading: true,
+      center: null,
+      data: [],
+      visitFields: ['ip', 'visit'],
+      visitInfo: [],
+      url: {
+        summary: '/eth_hub/appMember/dashboard',
+        list: '/system/loginLog/list'
+      },
+      columns: [
+        {
+          title: '操作类型',
+          align: 'center',
+          dataIndex: 'type'
         },
-        columns: [
-          {
-            title: '操作类型',
-            align: 'center',
-            dataIndex: 'type'
-          },
-          {
-            title: 'IP',
-            align: 'center',
-            dataIndex: 'ip'
-          },
-          {
-            title: '登录信息',
-            align: 'center',
-            dataIndex: 'message'
-          },
-        ],
+        {
+          title: 'IP',
+          align: 'center',
+          dataIndex: 'ip'
+        },
+        {
+          title: '登录信息',
+          align: 'center',
+          dataIndex: 'message'
+        }
+      ]
     }
-    },
-    created() {
-      setTimeout(() => {
-        this.loading = !this.loading
-      }, 1000)
-      this.initLogInfo()
+  },
+  created() {
+    setTimeout(() => {
+      this.loading = !this.loading
+    }, 1000)
+    this.initLogInfo()
 
+  },
+  methods: {
+    initLogInfo() {
+      this.getSummary()
     },
-    methods: {
-      initLogInfo() {
-        this.getSummary()
-      },
 
-      getSummary(){
-        getAction(this.url.summary, {}).then(res =>{
-            if (res.success){
-              this.data = res.result
-            }
+    getSummary() {
+      getAction(this.url.summary, {}).then(res => {
+          if (res.success) {
+            this.data = res.result
           }
-        )
-      },
-
-
+        }
+      )
     }
+
+
   }
+}
 </script>
 
 <style scoped>
