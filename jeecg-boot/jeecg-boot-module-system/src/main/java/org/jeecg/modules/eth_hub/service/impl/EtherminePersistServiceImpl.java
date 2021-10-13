@@ -1,6 +1,7 @@
 package org.jeecg.modules.eth_hub.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.NumberUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.jeecg.modules.demo.eth_hub.dao.EtherPayoutRepository;
 import org.jeecg.modules.demo.eth_hub.entity.EtherMiner;
@@ -101,9 +102,9 @@ public class EtherminePersistServiceImpl implements EtherminePersistService {
         Payout.DataDTO.EstimatesDTO estimates = data.getData().getEstimates();
         if (BeanUtil.isNotEmpty(estimates)) {
             miner.setAverageHashrate(estimates.getAverageHashrate() / 1000000);
-            miner.setCoinsPerDay(estimates.getCoinsPerMin() * 60 * 24);
-            miner.setUsdPerDay(estimates.getUsdPerMin() * 60 * 24);
-            miner.setBtcPerDay(estimates.getBtcPerMin() * 60 * 24);
+            miner.setCoinsPerDay(NumberUtil.round(estimates.getCoinsPerMin() * 60 * 24, 4).doubleValue());
+            miner.setUsdPerDay(NumberUtil.round(estimates.getUsdPerMin() * 60 * 24, 4).doubleValue());
+            miner.setBtcPerDay(NumberUtil.round(estimates.getBtcPerMin() * 60 * 24, 4).doubleValue());
             minerService.updateById(miner);
         }
 
