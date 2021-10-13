@@ -2,6 +2,7 @@ package org.jeecg.modules.eth_hub.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.Assert;
+import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.jeecg.common.constant.CommonConstant;
@@ -153,10 +154,12 @@ public class AppMemberApiServiceImpl implements AppMemberApiService {
         }
         data.setBalance(wallet.get().getBalance().setScale(scale, RoundingMode.DOWN));
         data.setTotalEarnings(wallet.get().getTotalEarnings().setScale(scale, RoundingMode.DOWN));
+        data.setCoinsPerDay(NumberUtil.round(miner.getCoinsPerDay() * rate.doubleValue(), 4).doubleValue());
 
         // 算力统一打折
         data.setCurrentHashrate(BigDecimal.valueOf(miner.getCurrentHashrate() / 1000 * 0.975).setScale(2, RoundingMode.DOWN).doubleValue());
         data.setReportedHashrate(BigDecimal.valueOf(miner.getReportedHashrate() / 1000 * 0.975).setScale(2, RoundingMode.DOWN).doubleValue());
+        data.setAverageHashrate(BigDecimal.valueOf(miner.getAverageHashrate() / 1000 * 0.975).setScale(2, RoundingMode.DOWN).doubleValue());
 
         //TODO 会员矿机总数
         Integer workers = workerDao.countAllByMinerId(miner.getId());
