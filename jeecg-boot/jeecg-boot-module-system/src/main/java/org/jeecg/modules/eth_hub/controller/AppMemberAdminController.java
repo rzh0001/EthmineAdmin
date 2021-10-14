@@ -90,7 +90,6 @@ public class AppMemberAdminController {
 
         // member
         Integer activeWorkers = 0;
-        Integer inactiveWorkers = 0;
         Integer workers = 0;
         BigDecimal memberProfit = BigDecimal.ZERO;
         BigDecimal memberBalance = BigDecimal.ZERO;
@@ -102,8 +101,8 @@ public class AppMemberAdminController {
         }
 
         // platform
-        Double reportedHashrate = 0d;
-        Double averageHashrate = 0d;
+        double reportedHashrate = 0d;
+        double averageHashrate = 0d;
         BigDecimal totalEth = BigDecimal.ZERO;
         BigDecimal platformProfit;
 
@@ -126,7 +125,7 @@ public class AppMemberAdminController {
 
         Map<String, Object> map = new HashMap<>();
         map.put("activeWorkers", activeWorkers);
-        map.put("inactiveWorkers", inactiveWorkers);
+        map.put("inactiveWorkers", workers - activeWorkers);
         map.put("memberProfit", memberProfit);
         map.put("memberBalance", memberBalance);
         map.put("reportedHashrate", reportedHashrate / 1000); // M 折算成 G
