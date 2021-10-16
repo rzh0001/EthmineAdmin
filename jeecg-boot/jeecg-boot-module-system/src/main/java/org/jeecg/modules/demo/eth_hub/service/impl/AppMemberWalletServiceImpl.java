@@ -49,7 +49,8 @@ public class AppMemberWalletServiceImpl extends ServiceImpl<AppMemberWalletMappe
             }
             AppMember member = memberDao.findByUsername(wallet.getMemberUsername());
 
-            wallet.setUnpaid(miner.getUnpaid().multiply(BigDecimal.ONE.subtract(member.getChargeRate())));
+            BigDecimal unpaid = miner.getUnpaid() == null ? BigDecimal.ZERO : miner.getUnpaid();
+            wallet.setUnpaid(unpaid.multiply(BigDecimal.ONE.subtract(member.getChargeRate())));
         }
         return walletPage;
     }
