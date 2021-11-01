@@ -1,6 +1,7 @@
 package org.jeecg.modules.eth_hub.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.NumberUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.jeecg.modules.demo.eth_hub.dao.EtherPayoutRepository;
@@ -57,13 +58,16 @@ public class EtherminePersistServiceImpl implements EtherminePersistService {
         BeanUtil.copyProperties(current, miner);
         // 刚提现走时，矿池API不返回unpaid字段
         String unpaid = current.getUnpaid() == null ? "0" : current.getUnpaid();
+        double currentHashrate = current.getCurrentHashrate() == null ? 0d : current.getCurrentHashrate();
+        double reportedHashrate = current.getCurrentHashrate() == null ? 0d : current.getReportedHashrate();
 
         miner.setUnpaid(RuanTool.convertEtherAmount(new BigDecimal(unpaid)));
-        miner.setCurrentHashrate(current.getCurrentHashrate() / 1000000);
-        miner.setReportedHashrate(current.getReportedHashrate() / 1000000);
-        miner.setTime(RuanTool.convertTime(current.getTime()));
-        miner.setLastSeen(RuanTool.convertTime(current.getLastSeen()));
-
+        miner.setCurrentHashrate(currentHashrate / 1000000);
+        miner.setReportedHashrate(reportedHashrate / 1000000);
+        miner.setTime(current.getTime() == null ? DateUtil.date().toTimestamp() : RuanTool.convertTime(current.getTime()));
+        if (current.getLastSeen() != null) {
+            miner.setLastSeen(RuanTool.convertTime(current.getLastSeen()));
+        }
 
         res.getData().getWorkers().forEach(value -> workerService.saveWorker(miner, value));
 
