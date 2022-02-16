@@ -54,6 +54,7 @@ public class EtherminePersistServiceImpl implements EtherminePersistService {
         }
 
         log.info("unpaid: {}", current.getUnpaid());
+        log.info("wokers: {}", res.getData().getWorkers().size());
 
         BeanUtil.copyProperties(current, miner);
         // 刚提现走时，矿池API不返回unpaid字段

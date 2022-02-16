@@ -83,7 +83,7 @@ public class RuanTool {
      * @return
      */
     public static String dateToHourString(Date date) {
-        FastDateFormat instance = FastDateFormat.getInstance("yyyy-MM-dd HH");
+        FastDateFormat instance = FastDateFormat.getInstance("yyyy-MM-dd-HH");
         return instance.format(date);
     }
 

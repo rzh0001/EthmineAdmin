@@ -28,14 +28,19 @@ public class EtherWorkerOnlineServiceImpl extends ServiceImpl<EtherWorkerOnlineM
 
         String hourStr = RuanTool.dateToHourString(DateUtil.date());
 
-        EtherWorkerOnline data = onlineDao.findByWorkerIdAndOnlineTime(worker.getWorkerId(), hourStr);
+        /**
+         * 循环查询数据库，very bad
+         */
+//        EtherWorkerOnline data = onlineDao.findByWorkerIdAndOnlineTime(worker.getWorkerId(), hourStr);
+//
+//        // 一小时为单位，保存一条数据
+//        if (BeanUtil.isNotEmpty(data)) {
+//            return;
+//        }
 
-        // 一小时为单位，保存一条数据
-        if (BeanUtil.isNotEmpty(data)) {
-            return;
-        }
-
-        data = new EtherWorkerOnline();
+        EtherWorkerOnline data = new EtherWorkerOnline();
+        String id = RuanTool.concat("{}-{}-{}", worker.getMinerName(),worker.getWorkerName(),hourStr);
+        data.setId(id);
         data.setOnlineTime(hourStr);
         data.setWorkerId(worker.getWorkerId());
         data.setWorkerName(worker.getWorkerName());
@@ -43,7 +48,7 @@ public class EtherWorkerOnlineServiceImpl extends ServiceImpl<EtherWorkerOnlineM
         data.setMinerId(worker.getMinerId());
         data.setMinerName(worker.getMinerName());
 
-        save(data);
+        saveOrUpdate(data);
 
     }
 }
